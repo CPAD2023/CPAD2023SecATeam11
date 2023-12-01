@@ -33,6 +33,7 @@ const handlePublishJob = async (req, res) => {
 
 const handleApplyJob = async (req, res) => {
 	try {
+		console.log('called');
 		console.log(req.body);
 		const { jobId, employeeId } = req.body;
 		const job = await Job.findOneAndUpdate(

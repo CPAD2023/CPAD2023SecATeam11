@@ -6,6 +6,7 @@ import SignUp from './screens/SignUp';
 import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
 import Jobs from './screens/Jobs';
+import MyJobs from './screens/MyJobs';
 
 export const AppContext = createContext();
 
@@ -21,7 +22,7 @@ const App = () => {
 	const HomeTabs = () => {
 		return (
 			<Tab.Navigator>
-				<Tab.Screen name='MyJobs' component={Dashboard} />
+				<Tab.Screen name='MyJobs' component={MyJobs} />
 				{isRecruiter ? (
 					<Tab.Screen name='CreateJob' component={Dashboard} />
 				) : (

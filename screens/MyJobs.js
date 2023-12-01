@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
 
-const JobsScreen = ({ navigation }) => {
+const MyJobs = ({ navigation }) => {
 	const { userId } = useContext(AppContext);
 	const [jobs, setJobs] = useState([]);
 
@@ -12,15 +12,8 @@ const JobsScreen = ({ navigation }) => {
 			fetch('http://localhost:3000/getJobs')
 				.then((response) => response.json())
 				.then((data) => {
-					// const jobsArray = [];
-					// console.log(data);
-					// if (data != null) {
-					// 	Object.entries(data).forEach(([key, value]) => {
-					// 		jobsArray.push(value);
-					// 	});
-					// }
-					const jobsArray = data.jobs.filter(
-						(job) => !job.appliedBy.includes(userId)
+					const jobsArray = data.jobs.filter((job) =>
+						job.appliedBy.includes(userId)
 					);
 					setJobs(jobsArray);
 				})
@@ -30,9 +23,7 @@ const JobsScreen = ({ navigation }) => {
 
 	const renderItem = ({ item }) => (
 		<Pressable
-			onPress={() =>
-				navigation.navigate('IndividualJob', { jobId: item._id })
-			}>
+			onPress={() => navigation.navigate('Job', { jobId: item._id })}>
 			<View style={styles.jobCard}>
 				<Text style={styles.jobTitle}>{item.role}</Text>
 				<Text style={styles.company}>{item.company}</Text>
@@ -45,28 +36,24 @@ const JobsScreen = ({ navigation }) => {
 				<Pressable
 					style={styles.applyButton}
 					onPress={() => handleApply(item._id)}>
-					<Text>Apply</Text>
+					<Text>Set Inactive</Text>
 				</Pressable>
 			</View>
 		</Pressable>
 	);
 
 	const handleApply = (jobId) => {
-		const formData = new URLSearchParams();
-		formData.append('jobId', jobId);
-		formData.append('employeeId', userId);
-		console.log(`Applying for job ${jobId}`);
-		fetch('http://localhost:3000/applyJob', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			body: formData.toString(),
-		})
-			.then((res) =>
-				setJobs((jobs) => jobs.filter((job) => job._id != jobId))
-			)
-			.catch((err) => console.log(err));
+		// const formData = new URLSearchParams();
+		// formData.append('jobId', jobId);
+		// formData.append('employeeId', userId);
+		// console.log(`Applying for job ${jobId}`);
+		// fetch('http://localhost:3000/applyJob', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/x-www-form-urlencoded',
+		// 	},
+		// 	body: formData.toString(),
+		// }).catch((err) => console.log(err));
 	};
 
 	return (
@@ -109,11 +96,11 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	applyButton: {
-		backgroundColor: '#3498db',
+		backgroundColor: '#e6e600',
 		padding: 8,
 		borderRadius: 5,
 		marginTop: 8,
 	},
 });
 
-export default JobsScreen;
+export default MyJobs;
