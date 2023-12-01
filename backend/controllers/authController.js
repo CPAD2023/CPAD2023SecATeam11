@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Employee = require('../models/Employee');
+const Employer = require('../models/Employer');
 
 const handleSignup = async (req, res) => {
 	try {
@@ -66,13 +68,21 @@ const handleLogin = async (req, res) => {
 		const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
 			expiresIn: '1h',
 		});
+		let userData = {};
+		if (user.isRecruiter) {
+			userData = await Employer.findOne({ id: user._id });
+		} else {
+			userData = await Employee.findOne({ id: user._id });
+		}
 
 		res.status(200).json({
 			token,
 			userId: user._id,
 			isRecruiter: user.isRecruiter,
+			userData: userData,
 		});
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ message: 'Internal Server Error' });
 	}
 };

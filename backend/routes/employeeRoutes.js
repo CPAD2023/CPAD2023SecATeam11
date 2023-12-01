@@ -9,6 +9,4 @@ router.post('/saveProfile', employeeController.handleSaveProfile);
 
 router.post('/updateProfile', employeeController.handleUpdateProfile);
 
-router.post('/applyJob', employeeController.handleApplyJob);
-
 module.exports = router;

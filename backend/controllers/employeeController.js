@@ -34,24 +34,4 @@ const handleUpdateProfile = async (req, res) => {
 	}
 };
 
-const handleApplyJob = async (req, res) => {
-	try {
-		const { jobId, employeeId } = req.body;
-		const job = Job.findOneAndUpdate(
-			{ _id: jobId },
-			{ $push: { appliedBy: employeeId } },
-			{ new: true }
-		);
-
-		if (!job) {
-			throw new Error();
-		} else {
-			return res.status(200);
-		}
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ message: 'Internal Server Error' });
-	}
-};
-
-module.exports = { handleSaveProfile, handleUpdateProfile, handleApplyJob };
+module.exports = { handleSaveProfile, handleUpdateProfile };

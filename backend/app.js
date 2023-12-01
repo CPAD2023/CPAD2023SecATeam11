@@ -18,7 +18,7 @@ mongoose.connect(process.env.DB_URL, {
 // fetching the routers
 // const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
-const fileRoutes = require('./routes/fileRoutes');
+// const fileRoutes = require('./routes/fileRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const employerRoutes = require('./routes/employerRoutes');
 const jobRoutes = require('./routes/jobRoutes');
@@ -28,10 +28,10 @@ const reponseHeaderMiddleware = require('./middleware/responseHeader');
 
 // app.use(reponseHeaderMiddleware.responseHeader);
 app.use(authRoutes);
-app.use(fileRoutes);
+// app.use(fileRoutes);
 app.use('/employee', employeeRoutes);
 app.use('/employer', employerRoutes);
-app.use('/job', jobRoutes);
+app.use(jobRoutes);
 
 // starting the server
 app.listen(process.env.DEV_PORT || 8080, () => {
