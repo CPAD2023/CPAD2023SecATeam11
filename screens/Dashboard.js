@@ -1,12 +1,6 @@
 import React, { useContext, useState } from 'react';
-import {
-	View,
-	Text,
-	TextInput,
-	Button,
-	CheckBox,
-	StyleSheet,
-} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { AppContext } from '../App';
 
 const Dashboard = ({ navigation }) => {
@@ -61,7 +55,7 @@ const Dashboard = ({ navigation }) => {
 				secureTextEntry
 			/>
 			<View style={styles.checkboxContainer}>
-				<CheckBox value={isRecruiter} onValueChange={setIsRecruiter} />
+				<Checkbox value={isRecruiter} onValueChange={setIsRecruiter} />
 				<Text style={styles.label}>Are you a recruiter?</Text>
 			</View>
 			<Button title='Sign Up' onPress={handleDashboard} />
