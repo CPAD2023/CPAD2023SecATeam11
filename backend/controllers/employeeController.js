@@ -3,6 +3,7 @@ const Job = require('../models/Job');
 
 const handleSaveProfile = async (req, res) => {
 	try {
+		console.log(req.body);
 		if (req.body != null) {
 			const employee = new Employee(req.body);
 			await employee.save();

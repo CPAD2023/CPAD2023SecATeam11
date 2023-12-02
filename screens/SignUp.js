@@ -4,10 +4,10 @@ import {
 	Text,
 	TextInput,
 	Button,
-	CheckBox,
 	StyleSheet,
 	Pressable,
 } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { AppContext } from '../App';
 
 const SignUp = ({ navigation }) => {
@@ -68,7 +68,7 @@ const SignUp = ({ navigation }) => {
 				secureTextEntry
 			/>
 			<View style={styles.checkboxContainer}>
-				<CheckBox value={isRecruiter} onValueChange={setIsRecruiter} />
+				<Checkbox value={isRecruiter} onValueChange={setIsRecruiter} />
 				<Text style={styles.label}>Are you a recruiter?</Text>
 			</View>
 			<Button title='Sign Up' onPress={handleSignUp} />

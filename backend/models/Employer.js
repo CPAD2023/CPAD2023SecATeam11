@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const employerSchema = new mongoose.Schema({
-	id: { type: mongoose.SchemaTypes.ObjectId, required: true },
-	fname: { type: String, required: true },
-	lname: { type: String, required: true },
-	company: { type: String, required: true },
+	id: mongoose.SchemaTypes.ObjectId,
+	fname: String,
+	lname: String,
+	company: String,
 	profileImg: Buffer,
 });
 

@@ -1,12 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-	View,
-	Text,
-	TextInput,
-	Button,
-	CheckBox,
-	StyleSheet,
-} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { AppContext } from '../App';
 
 const Login = ({ navigation }) => {

@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 
 const employeeSchema = new mongoose.Schema({
-	id: { type: mongoose.SchemaTypes.ObjectId, required: true },
-	fname: { type: String, required: true },
-	lname: { type: String, required: true },
+	id: mongoose.SchemaTypes.ObjectId,
+	fname: String,
+	lname: String,
 	experience: {
 		type: String,
-		required: true,
 		enum: ['0 - 2 years', '2 - 5 years', '5 years or more'],
-		default: '0 - 2 years',
 	},
-	skills: { type: [String], required: true },
+	skills: [String],
 	profileImg: Buffer,
 	resume: Buffer,
 });

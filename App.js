@@ -7,6 +7,7 @@ import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
 import Jobs from './screens/Jobs';
 import MyJobs from './screens/MyJobs';
+import Profile from './screens/Profile';
 
 export const AppContext = createContext();
 
@@ -28,7 +29,7 @@ const App = () => {
 				) : (
 					<Tab.Screen name='Jobs' component={Jobs} />
 				)}
-				<Tab.Screen name='Profile' component={Dashboard} />
+				<Tab.Screen name='Profile' component={Profile} />
 			</Tab.Navigator>
 		);
 	};
