@@ -4,20 +4,36 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
 
 const MyJobs = ({ navigation }) => {
-	const { userId } = useContext(AppContext);
+	const { userId, isRecruiter } = useContext(AppContext);
 	const [jobs, setJobs] = useState([]);
 
 	useFocusEffect(
 		useCallback(() => {
-			fetch('http://localhost:3000/getJobs')
-				.then((response) => response.json())
-				.then((data) => {
-					const jobsArray = data.jobs.filter((job) =>
-						job.appliedBy.includes(userId)
+			if (!isRecruiter) {
+				fetch('http://localhost:3000/getJobs')
+					.then((response) => response.json())
+					.then((data) => {
+						const jobsArray = data.jobs.filter((job) =>
+							job.appliedBy.includes(userId)
+						);
+						setJobs(jobsArray);
+					})
+					.catch((error) =>
+						console.error('Error fetching jobs:', error)
 					);
-					setJobs(jobsArray);
-				})
-				.catch((error) => console.error('Error fetching jobs:', error));
+			} else {
+				fetch('http://localhost:3000/getJobs')
+					.then((response) => response.json())
+					.then((data) => {
+						const jobsArray = data.jobs.filter(
+							(job) => job.postedBy == userId
+						);
+						setJobs(jobsArray);
+					})
+					.catch((error) =>
+						console.error('Error fetching jobs:', error)
+					);
+			}
 		}, [])
 	);
 
@@ -35,7 +51,7 @@ const MyJobs = ({ navigation }) => {
 				</Text>
 				<Pressable
 					style={styles.applyButton}
-					onPress={() => handleApply(item._id)}>
+					onPress={() => handleInactive(item._id)}>
 					<Text>Set Inactive</Text>
 				</Pressable>
 			</View>
@@ -55,6 +71,8 @@ const MyJobs = ({ navigation }) => {
 		// 	body: formData.toString(),
 		// }).catch((err) => console.log(err));
 	};
+
+	const handleInactive = () => {};
 
 	return (
 		<View style={styles.container}>

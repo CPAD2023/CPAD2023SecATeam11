@@ -1,46 +1,49 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-	View,
-	Text,
-	TextInput,
-	Button,
-	StyleSheet,
-	Pressable,
-} from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { Text, TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../App';
+import { Switch } from 'react-native-paper';
 
 const SignUp = ({ navigation }) => {
 	const { token } = useContext(AppContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [isRecruiter, setIsRecruiter] = useState(false);
+	const [error, setError] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
 
 	const handleSignUp = async () => {
-		try {
-			const apiUrl = 'http://localhost:3000/signup';
+		if (username.length == 0 || password.length == 0) {
+			setError(true);
+			setErrorMsg('Empty fields!');
+		} else {
+			setError(false);
+			setErrorMsg('');
+			try {
+				const apiUrl = 'http://localhost:3000/signup';
 
-			const formData = new URLSearchParams();
-			formData.append('username', username);
-			formData.append('password', password);
-			formData.append('isRecruiter', String(isRecruiter));
+				const formData = new URLSearchParams();
+				formData.append('username', username);
+				formData.append('password', password);
+				formData.append('isRecruiter', String(isRecruiter));
 
-			const response = await fetch(apiUrl, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				body: formData.toString(),
-			});
+				const response = await fetch(apiUrl, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: formData.toString(),
+				});
 
-			if (!response.ok) {
-				console.error('Error signing up:', response.statusText);
-				return;
-			} else {
-				navigation.navigate('Login');
+				if (!response.ok) {
+					console.error('Error signing up:', response.statusText);
+					return;
+				} else {
+					navigation.navigate('Login');
+				}
+			} catch (error) {
+				console.error('Error signing up:', error.message);
 			}
-		} catch (error) {
-			console.error('Error signing up:', error.message);
 		}
 	};
 
@@ -52,15 +55,30 @@ const SignUp = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.appName}>Talentista</Text>
-			<Text style={styles.pageHeading}>Signup Page</Text>
-			<Text style={styles.label}>Username:</Text>
+			<Text variant='displayLarge' style={[styles.appName, styles.text]}>
+				Talentista
+			</Text>
+			<Text
+				variant='headlineLarge'
+				style={[styles.pageHeading, , styles.text]}>
+				Signup Page
+			</Text>
+			{error && <Text style={{ color: 'red' }}>{errorMsg}</Text>}
+			<Text
+				variant='headlineMedium'
+				style={[styles.label, , styles.text]}>
+				Username:
+			</Text>
 			<TextInput
 				style={styles.input}
 				value={username}
 				onChangeText={setUsername}
 			/>
-			<Text style={styles.label}>Password:</Text>
+			<Text
+				variant='headlineMedium'
+				style={[styles.label, , styles.text]}>
+				Password:
+			</Text>
 			<TextInput
 				style={styles.input}
 				value={password}
@@ -68,10 +86,16 @@ const SignUp = ({ navigation }) => {
 				secureTextEntry
 			/>
 			<View style={styles.checkboxContainer}>
-				<Checkbox value={isRecruiter} onValueChange={setIsRecruiter} />
-				<Text style={styles.label}>Are you a recruiter?</Text>
+				<Switch value={isRecruiter} onValueChange={setIsRecruiter} />
+				<Text
+					variant='headlineSmall'
+					style={[styles.label, , styles.text]}>
+					Are you a recruiter?
+				</Text>
 			</View>
-			<Button title='Sign Up' onPress={handleSignUp} />
+			<Button mode='contained-tonal' onPress={handleSignUp}>
+				Sign Up
+			</Button>
 
 			<Pressable onPress={() => navigation.navigate('Login')}>
 				<Text style={styles.linkText}>
@@ -101,6 +125,7 @@ const styles = StyleSheet.create({
 	label: {
 		fontSize: 16,
 		marginBottom: 8,
+		paddingLeft: 8,
 	},
 	input: {
 		width: '100%',
@@ -119,6 +144,9 @@ const styles = StyleSheet.create({
 		color: 'blue',
 		textDecorationLine: 'underline',
 		marginTop: 16,
+	},
+	text: {
+		color: 'black',
 	},
 });
 

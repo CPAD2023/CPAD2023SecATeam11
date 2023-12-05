@@ -17,4 +17,21 @@ const handleSaveProfile = async (req, res) => {
 	}
 };
 
-module.exports = { handleSaveProfile };
+const handleUpdateProfile = async (req, res) => {
+	try {
+		const updatedEmployer = await Employer.findOneAndUpdate(
+			{ fname: req.body.fname },
+			{ lname: req.body.lname },
+			{ company: req.body.company }
+		);
+		if (!updatedEmployer) {
+			throw new Error();
+		} else {
+			return res.status(201).json({ updatedEmployer });
+		}
+	} catch (error) {
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
+};
+
+module.exports = { handleSaveProfile, handleUpdateProfile };

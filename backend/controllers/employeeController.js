@@ -21,9 +21,10 @@ const handleSaveProfile = async (req, res) => {
 const handleUpdateProfile = async (req, res) => {
 	try {
 		const updatedEmployee = await Employee.findOneAndUpdate(
-			{ username: req.body.username },
-			{ $set: { skills: req.body.skills } },
-			{ new: true }
+			{ fname: req.body.fname },
+			{ lname: req.body.lname },
+			{ experience: req.body.experience },
+			{ $set: { skills: req.body.skills } }
 		);
 		if (!updatedEmployee) {
 			throw new Error();
