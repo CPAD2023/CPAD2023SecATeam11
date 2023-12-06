@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { AppContext } from '../App';
 
 const Login = ({ navigation }) => {
@@ -30,8 +30,8 @@ const Login = ({ navigation }) => {
 				return;
 			} else {
 				const responseData = await response.json();
-				console.log(responseData);
-				if (responseData.user != null) {
+				console.log('hello world', responseData);
+				if (responseData.userData != null) {
 					setUserData(responseData.userData);
 				}
 				setUserId(responseData.userId);
@@ -67,7 +67,9 @@ const Login = ({ navigation }) => {
 				onChangeText={setPassword}
 				secureTextEntry
 			/>
-			<Button title='Login' onPress={handleLogin} />
+			<Button mode='contained-tonal' onPress={handleLogin}>
+				Login
+			</Button>
 		</View>
 	);
 };
@@ -99,11 +101,6 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		marginBottom: 16,
 		paddingHorizontal: 8,
-	},
-	checkboxContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		marginBottom: 16,
 	},
 });
 

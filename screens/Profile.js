@@ -6,8 +6,8 @@ const ProfilePage = () => {
 	const { userData, setUserData, isRecruiter, userId } =
 		useContext(AppContext);
 	const [editable, setEditable] = useState(false);
-	const [error, setError] = useState('');
-	const [isError, setIsError] = useState(false);
+	// const [error, setError] = useState('');
+	// const [isError, setIsError] = useState(false);
 	const [fname, setFname] = useState(userData == null ? '' : userData.fname);
 	const [lname, setLname] = useState(userData == null ? '' : userData.lname);
 	const [company, setCompany] = useState(
@@ -25,13 +25,14 @@ const ProfilePage = () => {
 	};
 
 	const handleSave = () => {
-		if (isRecruiter) {
+		if (!isRecruiter) {
 			const formData = new URLSearchParams();
 			formData.append('id', userId);
 			formData.append('fname', fname);
 			formData.append('lname', lname);
 			formData.append('experience', experience);
 			formData.append('skills', skills);
+			console.log('employee post call');
 			fetch('http://localhost:3000/employee/saveProfile', {
 				method: 'POST',
 				headers: {
@@ -44,7 +45,7 @@ const ProfilePage = () => {
 			formData.append('fname', fname);
 			formData.append('lname', lname);
 			formData.append('company', company);
-			fetch('http://localhost:3000/employer/saveProfile', {
+			fetch('http://localhost:3000/employer/updateProfile', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,7 +59,7 @@ const ProfilePage = () => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.header}>Profile Page</Text>
-			{isError && <Text>{error}</Text>}
+			{/* {isError && <Text>{error}</Text>} */}
 			<View style={styles.fieldContainer}>
 				<Text>First Name:</Text>
 				<TextInput
@@ -90,7 +91,7 @@ const ProfilePage = () => {
 				</View>
 			)}
 
-			{isRecruiter && (
+			{!isRecruiter && (
 				<View style={styles.fieldContainer}>
 					<Text>Experience:</Text>
 					<TextInput
@@ -102,7 +103,7 @@ const ProfilePage = () => {
 				</View>
 			)}
 
-			{isRecruiter && (
+			{!isRecruiter && (
 				<View style={styles.fieldContainer}>
 					<Text>Skills:</Text>
 					<TextInput

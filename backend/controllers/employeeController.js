@@ -1,38 +1,48 @@
 const Employee = require('../models/Employee');
-const Job = require('../models/Job');
 
 const handleSaveProfile = async (req, res) => {
 	try {
-		console.log(req.body);
-		if (req.body != null) {
-			const employee = new Employee(req.body);
-			await employee.save();
-
-			return res.status(201).json({ message: 'Profile Saved' });
-		} else {
-			return res.status(400).json({ message: 'Empty request body' });
+		const id = req.body.id;
+		if (!id) {
+			return res
+				.status(400)
+				.json({ message: 'Missing id in the request body' });
 		}
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ message: 'Internal Server Error' });
-	}
-};
 
-const handleUpdateProfile = async (req, res) => {
-	try {
-		const updatedEmployee = await Employee.findOneAndUpdate(
-			{ username: req.body.username },
-			{ $set: { skills: req.body.skills } },
-			{ new: true }
-		);
-		if (!updatedEmployee) {
-			throw new Error();
-		} else {
+		const existingEmployee = await Employee.findById(id);
+
+		if (existingEmployee) {
+			const updatedEmployee = await Employee.findByIdAndUpdate(
+				id,
+				{
+					$set: {
+						fname: req.body.fname || existingEmployee.fname,
+						lname: req.body.lname || existingEmployee.lname,
+						experience:
+							req.body.experience || existingEmployee.experience,
+						skills: req.body.skills || existingEmployee.skills,
+					},
+				},
+				{ new: true }
+			);
+
 			return res.status(201).json({ updatedEmployee });
+		} else {
+			const newEmployee = new Employee({
+				_id: id,
+				fname: req.body.fname,
+				lname: req.body.lname,
+				experience: req.body.experience,
+				skills: req.body.skills,
+			});
+
+			const savedEmployee = await newEmployee.save();
+			return res.status(201).json({ savedEmployee });
 		}
 	} catch (error) {
+		console.error(error);
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 };
 
-module.exports = { handleSaveProfile, handleUpdateProfile };
+module.exports = { handleSaveProfile };

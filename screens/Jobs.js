@@ -20,7 +20,9 @@ const JobsScreen = ({ navigation }) => {
 					// 	});
 					// }
 					const jobsArray = data.jobs.filter(
-						(job) => !job.appliedBy.includes(userId)
+						(job) =>
+							!job.appliedBy.includes(userId) &&
+							!job.inactiveFor.includes(userId)
 					);
 					setJobs(jobsArray);
 				})

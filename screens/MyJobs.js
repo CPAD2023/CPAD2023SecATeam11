@@ -4,20 +4,36 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
 
 const MyJobs = ({ navigation }) => {
-	const { userId } = useContext(AppContext);
+	const { userId, isRecruiter } = useContext(AppContext);
 	const [jobs, setJobs] = useState([]);
 
 	useFocusEffect(
 		useCallback(() => {
-			fetch('http://localhost:3000/getJobs')
-				.then((response) => response.json())
-				.then((data) => {
-					const jobsArray = data.jobs.filter((job) =>
-						job.appliedBy.includes(userId)
+			if (!isRecruiter) {
+				fetch('http://localhost:3000/getJobs')
+					.then((response) => response.json())
+					.then((data) => {
+						const jobsArray = data.jobs.filter((job) =>
+							job.appliedBy.includes(userId)
+						);
+						setJobs(jobsArray);
+					})
+					.catch((error) =>
+						console.error('Error fetching jobs:', error)
 					);
-					setJobs(jobsArray);
-				})
-				.catch((error) => console.error('Error fetching jobs:', error));
+			} else {
+				fetch('http://localhost:3000/getJobs')
+					.then((response) => response.json())
+					.then((data) => {
+						const jobsArray = data.jobs.filter(
+							(job) => job.postedBy == userId
+						);
+						setJobs(jobsArray);
+					})
+					.catch((error) =>
+						console.error('Error fetching jobs:', error)
+					);
+			}
 		}, [])
 	);
 
@@ -35,25 +51,51 @@ const MyJobs = ({ navigation }) => {
 				</Text>
 				<Pressable
 					style={styles.applyButton}
-					onPress={() => handleApply(item._id)}>
+					onPress={() =>
+						isRecruiter
+							? handleDelete(item._id)
+							: handleInactive(item._id)
+					}>
 					<Text>Set Inactive</Text>
 				</Pressable>
 			</View>
 		</Pressable>
 	);
 
-	const handleApply = (jobId) => {
-		// const formData = new URLSearchParams();
-		// formData.append('jobId', jobId);
-		// formData.append('employeeId', userId);
-		// console.log(`Applying for job ${jobId}`);
-		// fetch('http://localhost:3000/applyJob', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/x-www-form-urlencoded',
-		// 	},
-		// 	body: formData.toString(),
-		// }).catch((err) => console.log(err));
+	const handleInactive = (jobId) => {
+		const formData = new URLSearchParams();
+		formData.append('jobId', jobId);
+		formData.append('employeeId', userId);
+		console.log(`set inactive job ${jobId}`);
+		fetch('http://localhost:3000/setJobInactive', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: formData.toString(),
+		})
+			.then(() => {
+				setJobs((jobs) => jobs.filter((job) => job._id != jobId));
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const handleDelete = (jobId) => {
+		const formData = new URLSearchParams();
+		formData.append('jobId', jobId);
+		formData.append('employeeId', userId);
+		console.log(`set inactive job ${jobId}`);
+		fetch('http://localhost:3000/deleteJob', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: formData.toString(),
+		})
+			.then(() => {
+				setJobs((jobs) => jobs.filter((job) => job._id != jobId));
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (

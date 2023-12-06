@@ -21,7 +21,7 @@ const handlePublishJob = async (req, res) => {
 			// const job = new Job(req.body);
 			const job = new Job(jobData);
 			job.save();
-			return res.status(200).send();
+			return res.status(200).json({ job });
 		} else {
 			return res.status(400).json({ message: 'Empty request body' });
 		}
@@ -33,7 +33,6 @@ const handlePublishJob = async (req, res) => {
 
 const handleApplyJob = async (req, res) => {
 	try {
-		console.log('called');
 		console.log(req.body);
 		const { jobId, employeeId } = req.body;
 		const job = await Job.findOneAndUpdate(
@@ -42,11 +41,50 @@ const handleApplyJob = async (req, res) => {
 			{ new: true }
 		);
 
-		return res.status(200).send();
+		return res.status(200).json({ job });
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ message: 'Internal Server Error' });
 	}
 };
 
-module.exports = { handleGetJobs, handlePublishJob, handleApplyJob };
+const handleSetInactive = async (req, res) => {
+	try {
+		console.log(req.body);
+		const { jobId, employeeId } = req.body;
+		const job = await Job.findOneAndUpdate(
+			{ _id: jobId },
+			{
+				$pull: { appliedBy: employeeId },
+				$push: { inactiveFor: employeeId },
+			},
+			{ new: true }
+		);
+
+		return res.status(200).json({ job });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
+};
+
+const handleDeleteJob = async (req, res) => {
+	try {
+		console.log(req.body);
+		const { jobId, employeeId } = req.body;
+		const job = await Job.findByIdAndDelete({ _id: jobId });
+
+		return res.status(200).json({ job });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
+};
+
+module.exports = {
+	handleGetJobs,
+	handlePublishJob,
+	handleApplyJob,
+	handleSetInactive,
+	handleDeleteJob,
+};
