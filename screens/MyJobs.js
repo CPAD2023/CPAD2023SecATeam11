@@ -1,7 +1,7 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { AppContext } from '../App';
+import React, { useState, useContext, useCallback } from "react";
+import { View, Text, FlatList, Pressable, StyleSheet } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { AppContext } from "../App";
 
 const MyJobs = ({ navigation }) => {
 	const { userId, isRecruiter } = useContext(AppContext);
@@ -98,51 +98,51 @@ const MyJobs = ({ navigation }) => {
 			.catch((err) => console.log(err));
 	};
 
-	return (
-		<View style={styles.container}>
-			<FlatList
-				data={jobs}
-				keyExtractor={(item) => item._id.toString()}
-				renderItem={renderItem}
-			/>
-		</View>
-	);
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={jobs}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={renderItem}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 16,
-	},
-	jobCard: {
-		borderWidth: 1,
-		borderColor: '#ccc',
-		padding: 16,
-		marginVertical: 8,
-	},
-	jobTitle: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		marginBottom: 8,
-	},
-	company: {
-		fontSize: 16,
-		marginBottom: 8,
-	},
-	experience: {
-		fontSize: 14,
-		marginBottom: 8,
-	},
-	skills: {
-		fontSize: 14,
-		marginBottom: 8,
-	},
-	applyButton: {
-		backgroundColor: '#e6e600',
-		padding: 8,
-		borderRadius: 5,
-		marginTop: 8,
-	},
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  jobCard: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 16,
+    marginVertical: 8,
+  },
+  jobTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  company: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  experience: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  skills: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  applyButton: {
+    backgroundColor: "#e6e600",
+    padding: 8,
+    borderRadius: 5,
+    marginTop: 8,
+  },
 });
 
 export default MyJobs;
