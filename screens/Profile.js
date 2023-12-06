@@ -30,12 +30,10 @@ const ProfilePage = () => {
 			formData.append('id', userId);
 			formData.append('fname', fname);
 			formData.append('lname', lname);
-			if (experienceArray.indexOf(experience) != -1) {
-				formData.append('experience', experience);
-			}
+			formData.append('experience', experience);
 			formData.append('skills', skills);
 			console.log('employee post call');
-			fetch('http://localhost:3000/employee/updateProfile', {
+			fetch('http://localhost:3000/employee/saveProfile', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',

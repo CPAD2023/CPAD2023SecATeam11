@@ -13,6 +13,7 @@ const jobSchema = new mongoose.Schema({
 	},
 	postedBy: mongoose.SchemaTypes.ObjectId,
 	appliedBy: [mongoose.SchemaTypes.ObjectId],
+	inactiveFor: [mongoose.SchemaTypes.ObjectId],
 });
 
 const Job = mongoose.model('Job', jobSchema);

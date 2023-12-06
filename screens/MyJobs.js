@@ -51,28 +51,52 @@ const MyJobs = ({ navigation }) => {
 				</Text>
 				<Pressable
 					style={styles.applyButton}
-					onPress={() => handleInactive(item._id)}>
+					onPress={() =>
+						isRecruiter
+							? handleDelete(item._id)
+							: handleInactive(item._id)
+					}>
 					<Text>Set Inactive</Text>
 				</Pressable>
 			</View>
 		</Pressable>
 	);
 
-	const handleApply = (jobId) => {
-		// const formData = new URLSearchParams();
-		// formData.append('jobId', jobId);
-		// formData.append('employeeId', userId);
-		// console.log(`Applying for job ${jobId}`);
-		// fetch('http://localhost:3000/applyJob', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/x-www-form-urlencoded',
-		// 	},
-		// 	body: formData.toString(),
-		// }).catch((err) => console.log(err));
+	const handleInactive = (jobId) => {
+		const formData = new URLSearchParams();
+		formData.append('jobId', jobId);
+		formData.append('employeeId', userId);
+		console.log(`set inactive job ${jobId}`);
+		fetch('http://localhost:3000/setJobInactive', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: formData.toString(),
+		})
+			.then(() => {
+				setJobs((jobs) => jobs.filter((job) => job._id != jobId));
+			})
+			.catch((err) => console.log(err));
 	};
 
-	const handleInactive = () => {};
+	const handleDelete = (jobId) => {
+		const formData = new URLSearchParams();
+		formData.append('jobId', jobId);
+		formData.append('employeeId', userId);
+		console.log(`set inactive job ${jobId}`);
+		fetch('http://localhost:3000/deleteJob', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: formData.toString(),
+		})
+			.then(() => {
+				setJobs((jobs) => jobs.filter((job) => job._id != jobId));
+			})
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<View style={styles.container}>

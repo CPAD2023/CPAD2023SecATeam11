@@ -25,7 +25,7 @@ const SignUp = ({ navigation }) => {
 				const formData = new URLSearchParams();
 				formData.append('username', username);
 				formData.append('password', password);
-				formData.append('isRecruiter', String(isRecruiter));
+				formData.append('isRecruiter', isRecruiter);
 
 				const response = await fetch(apiUrl, {
 					method: 'POST',
@@ -86,7 +86,11 @@ const SignUp = ({ navigation }) => {
 				secureTextEntry
 			/>
 			<View style={styles.checkboxContainer}>
-				<Switch value={isRecruiter} onValueChange={setIsRecruiter} />
+				<Switch
+					value={isRecruiter}
+					onValueChange={setIsRecruiter}
+					color={'black'}
+				/>
 				<Text
 					variant='headlineSmall'
 					style={[styles.label, , styles.text]}>

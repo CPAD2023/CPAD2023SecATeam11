@@ -7,6 +7,4 @@ const employerController = require('../controllers/employerController');
 
 router.post('/saveProfile', employerController.handleSaveProfile);
 
-router.post('/updateProfile', employerController.handleUpdateProfile);
-
 module.exports = router;

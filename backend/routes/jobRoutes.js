@@ -11,4 +11,8 @@ router.post('/publishJob', jobController.handlePublishJob);
 
 router.post('/applyJob', jobController.handleApplyJob);
 
+router.post('/setJobInactive', jobController.handleSetInactive);
+
+router.post('/deleteJob', jobController.handleDeleteJob);
+
 module.exports = router;

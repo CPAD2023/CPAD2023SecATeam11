@@ -6,6 +6,7 @@ const Employer = require('../models/Employer');
 
 const handleSignup = async (req, res) => {
 	try {
+		console.log(req.body);
 		const { username, password, isRecruiter } = req.body;
 
 		// Check if the username or password is missing
