@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { AppContext } from "../App";
+import React, { useContext, useState, useCallback } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { AppContext } from '../App';
 
 const ProfilePage = () => {
 	const { userData, setUserData, isRecruiter, userId } =
@@ -19,10 +20,53 @@ const ProfilePage = () => {
 	const [skills, setSkills] = useState(
 		userData == null ? [] : userData.skills
 	);
+  
+	useFocusEffect(
+		useCallback(() => {
+			if (!isRecruiter) {
+				fetch(`http://localhost:3000/employee/${userId}`)
+					.then((response) => response.json())
+					.then((data) => {
+						if (data?.employee?.fname) {
+							setFname(data?.employee?.fname);
+						}
+						if (data?.employee?.lname) {
+							setLname(data?.employee?.lname);
+						}
+						if (data?.employee?.experience) {
+							setExperience(data?.employee?.experience);
+						}
+						if (data?.employee?.skills) {
+							setSkills(data?.employee?.skills);
+						}
+					})
+					.catch((error) =>
+						console.error('Error fetching employee: ', error)
+					);
+			} else {
+				fetch(`http://localhost:3000/employer/${userId}`)
+					.then((response) => response.json())
+					.then((data) => {
+						if (data?.employer?.fname) {
+							setFname(data?.employer?.fname);
+						}
+						if (data?.employer?.lname) {
+							setLname(data?.employer?.lname);
+						}
+						if (data?.employer?.company) {
+							setCompany(data?.employer?.company);
+						}
+					})
+					.catch((error) =>
+						console.error('Error fetching employee: ', error)
+					);
+			}
+		}, [])
+	);
 
-  const handleEdit = () => {
-    setEditable(true);
-  };
+	const handleEdit = () => {
+		setEditable(true);
+	};
 
 	const handleSave = () => {
 		if (!isRecruiter) {
@@ -42,10 +86,11 @@ const ProfilePage = () => {
 			});
 		} else {
 			const formData = new URLSearchParams();
+			formData.append('id', userId);
 			formData.append('fname', fname);
 			formData.append('lname', lname);
 			formData.append('company', company);
-			fetch('http://localhost:3000/employer/updateProfile', {
+			fetch('http://localhost:3000/employer/saveProfile', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',

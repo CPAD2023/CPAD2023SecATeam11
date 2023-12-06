@@ -1,5 +1,22 @@
 const Employee = require('../models/Employee');
 
+const handleGetEmployeeById = async (req, res) => {
+	try {
+		const employeeId = req.params.id;
+
+		const employee = await Employee.findById(employeeId);
+
+		if (!employee) {
+			return res.status(404).json({ message: 'Employee not found' });
+		}
+
+		return res.status(200).json({ employee });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
+};
+
 const handleSaveProfile = async (req, res) => {
 	try {
 		const id = req.body.id;
@@ -45,4 +62,4 @@ const handleSaveProfile = async (req, res) => {
 	}
 };
 
-module.exports = { handleSaveProfile };
+module.exports = { handleSaveProfile, handleGetEmployeeById };

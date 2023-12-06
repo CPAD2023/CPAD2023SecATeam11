@@ -3,6 +3,7 @@ import { Text, Button, TextInput } from "react-native-paper";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import Checkbox from "expo-checkbox";
 import { AppContext } from "../App";
+
 const Login = ({ navigation }) => {
   const { setUserData, token, setToken, setUserId, setIsRecruiter } =
     useContext(AppContext);
@@ -49,8 +50,8 @@ const Login = ({ navigation }) => {
 				return;
 			} else {
 				const responseData = await response.json();
-				console.log('hello world', responseData);
-				if (responseData.userData != null) {
+				console.log(responseData);
+				if (responseData.user != null) {
 					setUserData(responseData.userData);
 				}
 				setUserId(responseData.userId);
@@ -120,24 +121,49 @@ const Login = ({ navigation }) => {
   );
 	return (
 		<View style={styles.container}>
-			<Text style={styles.appName}>Talentista</Text>
-			<Text style={styles.pageHeading}>Login Page</Text>
-			<Text style={styles.label}>Username:</Text>
-			<TextInput
-				style={styles.input}
-				value={username}
-				onChangeText={setUsername}
-			/>
-			<Text style={styles.label}>Password:</Text>
-			<TextInput
-				style={styles.input}
-				value={password}
-				onChangeText={setPassword}
-				secureTextEntry
-			/>
-			<Button mode='contained-tonal' onPress={handleLogin}>
-				Login
-			</Button>
+			<ImageBackground
+				blurRadius={2}
+				source={require('../assets/background_login.jpg')}
+				style={{ height: '100%', width: '100%', flex: 1 }}>
+				<View style={styles.innerContainer}>
+					<Text variant='displayMedium' style={styles.pageHeading}>
+						Talentista
+					</Text>
+					<Text style={styles.pageHeading} variant='headlineSmall'>
+						Welcome Back!
+					</Text>
+					<View style={styles.formContainer}>
+						<Text style={styles.label} variant='titleLarge'>
+							Username
+						</Text>
+						<TextInput
+							style={styles.input}
+							value={username}
+							onChangeText={setUsername}
+							mode='outlined'
+							placeholder='Username'
+						/>
+						<Text style={styles.label} variant='titleLarge'>
+							Password
+						</Text>
+						<TextInput
+							style={styles.input}
+							value={password}
+							onChangeText={setPassword}
+							secureTextEntry
+							mode='outlined'
+							placeholder='Password'
+						/>
+						<Button
+							onPress={handleLogin}
+							mode='contained'
+							style={styles.button}>
+							{' '}
+							Login{' '}
+						</Button>
+					</View>
+				</View>
+			</ImageBackground>
 		</View>
 	);
 };
