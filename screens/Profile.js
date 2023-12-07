@@ -20,7 +20,7 @@ const ProfilePage = () => {
 	const [skills, setSkills] = useState(
 		userData == null ? [] : userData.skills
 	);
-
+  
 	useFocusEffect(
 		useCallback(() => {
 			if (!isRecruiter) {
@@ -124,17 +124,17 @@ const ProfilePage = () => {
 				/>
 			</View>
 
-			{isRecruiter && (
-				<View style={styles.fieldContainer}>
-					<Text>Company:</Text>
-					<TextInput
-						style={styles.input}
-						value={company}
-						onChangeText={(text) => setCompany(text)}
-						editable={editable}
-					/>
-				</View>
-			)}
+      {isRecruiter && (
+        <View style={styles.fieldContainer}>
+          <Text>Company:</Text>
+          <TextInput
+            style={styles.input}
+            value={company}
+            onChangeText={(text) => setCompany(text)}
+            editable={editable}
+          />
+        </View>
+      )}
 
 			{!isRecruiter && (
 				<View style={styles.fieldContainer}>
@@ -160,33 +160,33 @@ const ProfilePage = () => {
 				</View>
 			)}
 
-			<Button
-				title={editable ? 'Save' : 'Edit'}
-				onPress={editable ? handleSave : handleEdit}
-			/>
-		</View>
-	);
+      <Button
+        title={editable ? "Save" : "Edit"}
+        onPress={editable ? handleSave : handleEdit}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 16,
-	},
-	header: {
-		fontSize: 24,
-		fontWeight: 'bold',
-		marginBottom: 16,
-	},
-	fieldContainer: {
-		marginBottom: 16,
-	},
-	input: {
-		borderWidth: 1,
-		borderColor: '#ccc',
-		padding: 8,
-		marginTop: 8,
-	},
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  fieldContainer: {
+    marginBottom: 16,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 8,
+    marginTop: 8,
+  },
 });
 
 export default ProfilePage;
