@@ -11,6 +11,7 @@ import MyJobs from './screens/MyJobs';
 import Profile from './screens/Profile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CreateJob from './screens/CreateJob';
+import Job from './screens/Job';
 
 export const AppContext = createContext();
 
@@ -48,7 +49,7 @@ const App = () => {
 				) : (
 					<Tab.Screen
 						name='Jobs'
-						component={Jobs}
+						component={JobTabs}
 						options={{
 							tabBarIcon: () => (
 								<Icon name='briefcase' size={25} />
@@ -66,6 +67,21 @@ const App = () => {
 					}}
 				/>
 			</Tab.Navigator>
+		);
+	};
+
+	const JobTabs = () => {
+		return (
+			<Stack.Navigator initialRouteName='Jobs'>
+				<Stack.Screen name='Jobs' component={Jobs} />
+				<Stack.Screen
+					name='Job'
+					component={Job}
+					options={({ route }) => ({
+						title: route.params.jobName || 'Job',
+					})}
+				/>
+			</Stack.Navigator>
 		);
 	};
 

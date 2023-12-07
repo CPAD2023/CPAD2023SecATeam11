@@ -33,7 +33,10 @@ const JobsScreen = ({ navigation }) => {
 	const renderItem = ({ item }) => (
 		<Pressable
 			onPress={() =>
-				navigation.navigate('IndividualJob', { jobId: item._id })
+				navigation.navigate('Job', {
+					jobDetails: item,
+					jobName: item.role,
+				})
 			}>
 			<View style={styles.jobCard}>
 				<Text style={styles.jobTitle}>{item.role}</Text>

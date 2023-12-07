@@ -37,7 +37,11 @@ const handleSaveProfile = async (req, res) => {
 						lname: req.body.lname || existingEmployee.lname,
 						experience:
 							req.body.experience || existingEmployee.experience,
-						skills: req.body.skills || existingEmployee.skills,
+						skills:
+							req.body.skills
+								.split(',')
+								.map((skill) => skill.trim()) ||
+							existingEmployee.skills,
 					},
 				},
 				{ new: true }
