@@ -12,11 +12,11 @@ const SignUp = ({ navigation }) => {
 
 	const handleSignUp = async () => {
 		try {
-			const apiUrl = 'http://localhost:3000/signup';
+			const apiUrl = 'http://10.0.2.2:3000/signup';
 
 			const formData = new URLSearchParams();
-			formData.append('username', username);
-			formData.append('password', password);
+			formData.append('username', username.trim());
+			formData.append('password', password.trim());
 			formData.append('isRecruiter', isRecruiter);
 
 			const response = await fetch(apiUrl, {
@@ -32,7 +32,7 @@ const SignUp = ({ navigation }) => {
 				console.error('Error signing up:', response.statusText);
 				return;
 			} else {
-				await navigation.navigate('Log In');
+				await navigation.navigate('Login');
 			}
 		} catch (error) {
 			console.error('Error signing up:', error.message);

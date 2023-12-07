@@ -10,7 +10,7 @@ const MyJobs = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       if (!isRecruiter) {
-        fetch("http://localhost:3000/getJobs")
+        fetch("http://10.0.2.2:3000/getJobs")
           .then((response) => response.json())
           .then((data) => {
             const jobsArray = data.jobs.filter((job) =>
@@ -20,7 +20,7 @@ const MyJobs = ({ navigation }) => {
           })
           .catch((error) => console.error("Error fetching jobs:", error));
       } else {
-        fetch("http://localhost:3000/getJobs")
+        fetch("http://10.0.2.2:3000/getJobs")
           .then((response) => response.json())
           .then((data) => {
             const jobsArray = data.jobs.filter((job) => job.postedBy == userId);
@@ -55,7 +55,7 @@ const MyJobs = ({ navigation }) => {
     formData.append("jobId", jobId);
     formData.append("employeeId", userId);
     console.log(`set inactive job ${jobId}`);
-    fetch("http://localhost:3000/setJobInactive", {
+    fetch("http://10.0.2.2:3000/setJobInactive", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -73,7 +73,7 @@ const MyJobs = ({ navigation }) => {
     formData.append("jobId", jobId);
     formData.append("employeeId", userId);
     console.log(`set inactive job ${jobId}`);
-    fetch("http://localhost:3000/deleteJob", {
+    fetch("http://10.0.2.2:3000/deleteJob", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

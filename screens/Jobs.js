@@ -9,7 +9,7 @@ const JobsScreen = ({ navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-      fetch("http://localhost:3000/getJobs")
+      fetch("http://10.0.2.2:3000/getJobs")
         .then((response) => response.json())
         .then((data) => {
           // const jobsArray = [];
@@ -54,7 +54,7 @@ const JobsScreen = ({ navigation }) => {
     formData.append("jobId", jobId);
     formData.append("employeeId", userId);
     console.log(`Applying for job ${jobId}`);
-    fetch("http://localhost:3000/applyJob", {
+    fetch("http://10.0.2.2:3000/applyJob", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
