@@ -3,6 +3,7 @@ import { Text, Button, TextInput } from "react-native-paper";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import Checkbox from "expo-checkbox";
 import { AppContext } from "../App";
+
 const Login = ({ navigation }) => {
   const { setUserData, token, setToken, setUserId, setIsRecruiter } =
     useContext(AppContext);
@@ -11,7 +12,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const apiUrl = "http://localhost:3001/login";
+      const apiUrl = "http://localhost:3000/login";
 
       const formData = new URLSearchParams();
       formData.append("username", username);
@@ -44,24 +45,6 @@ const Login = ({ navigation }) => {
       console.error("Error signing up:", error.message);
     }
   };
-			if (!response.ok) {
-				console.error('Error signing up:', response.statusText);
-				return;
-			} else {
-				const responseData = await response.json();
-				console.log('hello world', responseData);
-				if (responseData.userData != null) {
-					setUserData(responseData.userData);
-				}
-				setUserId(responseData.userId);
-				setIsRecruiter(responseData.isRecruiter);
-				setToken(responseData.token);
-				navigation.navigate('Dashboard');
-			}
-		} catch (error) {
-			console.error('Error signing up:', error.message);
-		}
-	};
 
   useEffect(() => {
     if (token) {
@@ -118,30 +101,7 @@ const Login = ({ navigation }) => {
       </ImageBackground>
     </View>
   );
-	return (
-		<View style={styles.container}>
-			<Text style={styles.appName}>Talentista</Text>
-			<Text style={styles.pageHeading}>Login Page</Text>
-			<Text style={styles.label}>Username:</Text>
-			<TextInput
-				style={styles.input}
-				value={username}
-				onChangeText={setUsername}
-			/>
-			<Text style={styles.label}>Password:</Text>
-			<TextInput
-				style={styles.input}
-				value={password}
-				onChangeText={setPassword}
-				secureTextEntry
-			/>
-			<Button mode='contained-tonal' onPress={handleLogin}>
-				Login
-			</Button>
-		</View>
-	);
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

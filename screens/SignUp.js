@@ -12,7 +12,7 @@ const SignUp = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
-      const apiUrl = "http://localhost:3001/signup";
+      const apiUrl = "http://localhost:3000/signup";
 
       const formData = new URLSearchParams();
       formData.append("username", username);
@@ -97,7 +97,7 @@ const SignUp = ({ navigation }) => {
               Signup
             </Button>
           </View>
-          <Pressable onPress={() => navigation.navigate("Log In")}>
+          <Pressable onPress={() => navigation.navigate("Login")}>
             <Text style={styles.linkText}>Already a user? Login here</Text>
           </Pressable>
         </View>
@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     textDecorationLine: "underline",
     marginTop: 16,
+    position: "relative",
   },
   button: {
     padding: 5,

@@ -7,28 +7,28 @@ const JobsScreen = ({ navigation }) => {
   const { userId } = useContext(AppContext);
   const [jobs, setJobs] = useState([]);
 
-	useFocusEffect(
-		useCallback(() => {
-			fetch('http://localhost:3000/getJobs')
-				.then((response) => response.json())
-				.then((data) => {
-					// const jobsArray = [];
-					// console.log(data);
-					// if (data != null) {
-					// 	Object.entries(data).forEach(([key, value]) => {
-					// 		jobsArray.push(value);
-					// 	});
-					// }
-					const jobsArray = data.jobs.filter(
-						(job) =>
-							!job.appliedBy.includes(userId) &&
-							!job.inactiveFor.includes(userId)
-					);
-					setJobs(jobsArray);
-				})
-				.catch((error) => console.error('Error fetching jobs:', error));
-		}, [])
-	);
+  useFocusEffect(
+    useCallback(() => {
+      fetch("http://localhost:3000/getJobs")
+        .then((response) => response.json())
+        .then((data) => {
+          // const jobsArray = [];
+          // console.log(data);
+          // if (data != null) {
+          // 	Object.entries(data).forEach(([key, value]) => {
+          // 		jobsArray.push(value);
+          // 	});
+          // }
+          const jobsArray = data.jobs.filter(
+            (job) =>
+              !job.appliedBy.includes(userId) &&
+              !job.inactiveFor.includes(userId)
+          );
+          setJobs(jobsArray);
+        })
+        .catch((error) => console.error("Error fetching jobs:", error));
+    }, [])
+  );
 
   const renderItem = ({ item }) => (
     <Pressable
@@ -54,7 +54,7 @@ const JobsScreen = ({ navigation }) => {
     formData.append("jobId", jobId);
     formData.append("employeeId", userId);
     console.log(`Applying for job ${jobId}`);
-    fetch("http://localhost:3001/applyJob", {
+    fetch("http://localhost:3000/applyJob", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
