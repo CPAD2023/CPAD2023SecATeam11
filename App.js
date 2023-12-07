@@ -84,7 +84,7 @@ const App = () => {
 			<PaperProvider>
 				<NavigationContainer>
 					<Stack.Navigator initialRouteName='SignUp'>
-						<Stack.Screen name='SignUp' component={HomeTabs} />
+						<Stack.Screen name='SignUp' component={SignUp} />
 						<Stack.Screen name='Login' component={Login} />
 						<Stack.Screen name='Dashboard' component={HomeTabs} />
 					</Stack.Navigator>
