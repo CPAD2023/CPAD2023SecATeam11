@@ -2,11 +2,15 @@ import React, { useContext, useState, useCallback } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
+import { nonTechnicalSkills, technicalSkills } from '../resources/skills';
+import ListComponent from '../components/ListComponent';
+import experienceArray from '../resources/experience';
 
 const ProfilePage = () => {
 	const { userData, setUserData, isRecruiter, userId } =
 		useContext(AppContext);
 	const [editable, setEditable] = useState(false);
+	const [showFull, setShowFull] = useState(false);
 	// const [error, setError] = useState('');
 	// const [isError, setIsError] = useState(false);
 	const [fname, setFname] = useState(userData == null ? '' : userData.fname);
@@ -14,12 +18,10 @@ const ProfilePage = () => {
 	const [company, setCompany] = useState(
 		userData == null ? '' : userData.company
 	);
-	const [experience, setExperience] = useState(
-		userData == null ? '' : userData.experience
-	);
-	const [skills, setSkills] = useState(
-		userData == null ? [] : userData.skills
-	);
+	const [mySkills, setMySkills] = useState([]);
+	const [allSkills, setAllSkills] = useState(technicalSkills);
+	const [myExperience, setMyExperience] = useState([]);
+	const [allExperience, setAllExperience] = useState(experienceArray);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -34,10 +36,10 @@ const ProfilePage = () => {
 							setLname(data?.employee?.lname);
 						}
 						if (data?.employee?.experience) {
-							setExperience(data?.employee?.experience);
+							setMyExperience([data?.employee?.experience]);
 						}
 						if (data?.employee?.skills) {
-							setSkills(data?.employee?.skills);
+							setMySkills(data?.employee?.skills);
 						}
 					})
 					.catch((error) =>
@@ -65,7 +67,16 @@ const ProfilePage = () => {
 	);
 
 	const handleEdit = () => {
+		setAllExperience((experiences) =>
+			experiences.filter(
+				(experience) => !myExperience.includes(experience)
+			)
+		);
+		setAllSkills((skills) =>
+			skills.filter((skill) => !mySkills.includes(skill))
+		);
 		setEditable(true);
+		setShowFull(true);
 	};
 
 	const handleSave = () => {
@@ -74,8 +85,11 @@ const ProfilePage = () => {
 			formData.append('id', userId);
 			formData.append('fname', fname);
 			formData.append('lname', lname);
-			formData.append('experience', experience);
-			formData.append('skills', skills);
+			formData.append(
+				'experience',
+				myExperience.length != 0 ? myExperience[0] : ''
+			);
+			formData.append('skills', mySkills);
 			console.log('employee post call');
 			fetch('http://localhost:3000/employee/saveProfile', {
 				method: 'POST',
@@ -99,6 +113,7 @@ const ProfilePage = () => {
 			});
 		}
 		setEditable(false);
+		setShowFull(false);
 	};
 
 	return (
@@ -138,24 +153,28 @@ const ProfilePage = () => {
 
 			{!isRecruiter && (
 				<View style={styles.fieldContainer}>
-					<Text>Experience:</Text>
-					<TextInput
-						style={styles.input}
-						value={experience}
-						onChangeText={(text) => setExperience(text)}
-						editable={editable}
+					<Text style={{ color: 'black' }}>Experience:</Text>
+					<ListComponent
+						fullList={allExperience}
+						setFullList={setAllExperience}
+						chosenList={myExperience}
+						setChosenList={setMyExperience}
+						max={1}
+						showFull={showFull}
 					/>
 				</View>
 			)}
 
 			{!isRecruiter && (
 				<View style={styles.fieldContainer}>
-					<Text>Skills:</Text>
-					<TextInput
-						style={styles.input}
-						value={skills}
-						onChangeText={(text) => setSkills(text)}
-						editable={editable}
+					<Text style={{ color: 'black' }}>Skills:</Text>
+					<ListComponent
+						fullList={allSkills}
+						setFullList={setAllSkills}
+						chosenList={mySkills}
+						setChosenList={setMySkills}
+						max={7}
+						showFull={showFull}
 					/>
 				</View>
 			)}

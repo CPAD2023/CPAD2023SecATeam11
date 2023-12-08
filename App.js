@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
 	const [userId, setUserId] = useState(null);
 	const [userData, setUserData] = useState(null);
-	const [isRecruiter, setIsRecruiter] = useState(false);
+	const [isRecruiter, setIsRecruiter] = useState(true);
 	const [token, setToken] = useState(null);
 
 	const HomeTabs = () => {

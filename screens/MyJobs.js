@@ -6,6 +6,7 @@ import { AppContext } from '../App';
 const MyJobs = ({ navigation }) => {
 	const { userId, isRecruiter } = useContext(AppContext);
 	const [jobs, setJobs] = useState([]);
+	console.log(userId);
 
 	useFocusEffect(
 		useCallback(() => {
