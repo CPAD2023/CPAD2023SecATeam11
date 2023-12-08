@@ -1,16 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import { AppContext } from '../App';
 
+const screenWidth = Dimensions.get('window').width;
 const Job = ({ route }) => {
 	const { isRecruiter } = useContext(AppContext);
 	const { jobDetails } = route.params;
-	console.log(jobDetails);
+	const [applicants, setApplicants] = useState([]);
+
+	useEffect(() => {
+		console.log(jobDetails);
+		if (isRecruiter) {
+			jobDetails.appliedBy.map((userId) => {
+				fetch(`http://localhost:3000/employee/${userId}`)
+					.then((response) => response.json())
+					.then(({ employee }) => {
+						console.log(employee);
+						setApplicants((prevApplicants) => [
+							...prevApplicants,
+							employee,
+						]);
+					})
+					.catch((error) =>
+						console.error('Error fetching employee: ', error)
+					);
+			});
+		}
+		console.log(applicants);
+	}, [isRecruiter, jobDetails]);
 
 	return (
 		<ScrollView style={styles.container}>
-			<Card style={styles.card}>
+			<Card style={[styles.card, { width: screenWidth - 30 }]}>
 				<Card.Title
 					title={jobDetails.role}
 					subtitle={jobDetails.company}
@@ -25,8 +47,8 @@ const Job = ({ route }) => {
 			{isRecruiter && (
 				<View>
 					<Text style={styles.applicantsHeading}>Applicants</Text>
-					{/* Render applicant cards here */}
-					{jobDetails.applicants.map((applicant, index) => (
+					{applicants.length == 0 && 'No applications yet!'}
+					{applicants.map((applicant, index) => (
 						<ApplicantCard key={index} applicant={applicant} />
 					))}
 				</View>
@@ -38,22 +60,37 @@ const Job = ({ route }) => {
 const ApplicantCard = ({ applicant }) => {
 	const handleScheduleCall = () => {
 		// Add logic to schedule a call
-		console.log(`Schedule call for ${applicant.name}`);
+		console.log(`Schedule call for ${applicant.fname}`);
 	};
 
 	return (
-		<Card style={styles.card}>
+		<Card style={[styles.card, { width: screenWidth - 30 }]}>
 			<Card.Title
-				title={applicant.name}
+				title={applicant.fname + ' ' + applicant.lname}
 				subtitle={`Experience: ${applicant.experience}`}
 			/>
 			<Card.Content>
-				<Text>Skills: {applicant.skills.join(', ')}</Text>
+				<View style={styles.container}>
+					Skills:{' '}
+					{applicant.skills.map((skill, index) => (
+						<Text
+							style={[styles.pill, styles.pillText]}
+							key={index}>
+							{skill}
+						</Text>
+					))}
+				</View>
 				<Button
 					onPress={handleScheduleCall}
 					mode='contained'
 					style={styles.scheduleButton}>
 					Schedule Call
+				</Button>
+				<Button
+					onPress={handleScheduleCall}
+					mode='contained'
+					style={styles.scheduleButton}>
+					Download Resume
 				</Button>
 			</Card.Content>
 		</Card>
@@ -68,6 +105,11 @@ const styles = StyleSheet.create({
 		color: 'white',
 		marginBottom: 16,
 	},
+	container: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		padding: 10,
+	},
 	applicantsHeading: {
 		fontSize: 18,
 		fontWeight: 'bold',
@@ -76,6 +118,19 @@ const styles = StyleSheet.create({
 	},
 	scheduleButton: {
 		marginTop: 8,
+	},
+	pill: {
+		backgroundColor: '#3498db',
+		borderRadius: 20,
+		paddingHorizontal: 15,
+		paddingVertical: 8,
+		marginHorizontal: 5,
+		marginVertical: 5,
+	},
+	pillText: {
+		color: '#fff',
+		fontSize: 16,
+		padding: 4,
 	},
 });
 

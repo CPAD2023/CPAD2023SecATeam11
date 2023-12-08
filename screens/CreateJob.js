@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { nonTechnicalSkills, technicalSkills } from '../resources/skills';
 import ListComponent from '../components/ListComponent';
@@ -51,60 +51,62 @@ const CreateJob = ({ navigation }) => {
 	};
 
 	return (
-		<View>
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Role:'}
-					style={styles.input}
-					value={role}
-					onChangeText={setRole}
+		<ScrollView>
+			<View>
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Role:'}
+						style={styles.input}
+						value={role}
+						onChangeText={setRole}
+					/>
+				</View>
+
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Description:'}
+						style={styles.input}
+						value={description}
+						onChangeText={setDescription}
+					/>
+				</View>
+
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Company:'}
+						style={styles.input}
+						value={company}
+						onChangeText={setCompany}
+					/>
+				</View>
+
+				<Text style={{ color: 'black' }}>Skills:</Text>
+				<ListComponent
+					fullList={allSkills}
+					setFullList={setAllSkills}
+					chosenList={mySkills}
+					setChosenList={setMySkills}
+					max={7}
+					showFull={true}
 				/>
-			</View>
 
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Description:'}
-					style={styles.input}
-					value={description}
-					onChangeText={setDescription}
+				<Text style={{ color: 'black' }}>Experience:</Text>
+				<ListComponent
+					fullList={allExperience}
+					setFullList={setAllExperience}
+					chosenList={myExperience}
+					setChosenList={setMyExperience}
+					max={1}
+					showFull={true}
 				/>
+
+				<View style={styles.fieldContainer}>
+					<Button mode='contained' onPress={handleCreateJob}>
+						Create Job
+					</Button>
+				</View>
 			</View>
-
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Company:'}
-					style={styles.input}
-					value={company}
-					onChangeText={setCompany}
-				/>
-			</View>
-
-			<Text style={{ color: 'black' }}>Skills:</Text>
-			<ListComponent
-				fullList={allSkills}
-				setFullList={setAllSkills}
-				chosenList={mySkills}
-				setChosenList={setMySkills}
-				max={7}
-				showFull={true}
-			/>
-
-			<Text style={{ color: 'black' }}>Experience:</Text>
-			<ListComponent
-				fullList={allExperience}
-				setFullList={setAllExperience}
-				chosenList={myExperience}
-				setChosenList={setMyExperience}
-				max={1}
-				showFull={true}
-			/>
-
-			<View style={styles.fieldContainer}>
-				<Button mode='contained' onPress={handleCreateJob}>
-					Create Job
-				</Button>
-			</View>
-		</View>
+		</ScrollView>
 	);
 };
 

@@ -51,11 +51,12 @@ const App = () => {
 				)}
 				<Tab.Screen
 					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
-					component={MyJobs}
+					component={MyJobTabs}
 					options={{
 						tabBarIcon: () => (
 							<Icon name='clipboard-check-outline' size={25} />
 						),
+						headerShown: false,
 					}}
 				/>
 				<Tab.Screen
@@ -68,6 +69,27 @@ const App = () => {
 					}}
 				/>
 			</Tab.Navigator>
+		);
+	};
+
+	const MyJobTabs = () => {
+		return (
+			<Stack.Navigator>
+				<Stack.Screen
+					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					component={MyJobs}
+					options={{
+						headerLeft: () => null,
+					}}
+				/>
+				<Stack.Screen
+					name='Job'
+					component={Job}
+					options={({ route }) => ({
+						title: route.params.jobName || 'Job',
+					})}
+				/>
+			</Stack.Navigator>
 		);
 	};
 
