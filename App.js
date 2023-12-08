@@ -5,13 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PaperProvider } from 'react-native-paper';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
-import Dashboard from './screens/Dashboard';
 import Jobs from './screens/Jobs';
 import MyJobs from './screens/MyJobs';
 import Profile from './screens/Profile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CreateJob from './screens/CreateJob';
 import Job from './screens/Job';
+import LogoutButton from './components/LogoutButton';
 
 export const AppContext = createContext();
 
@@ -45,6 +45,7 @@ const App = () => {
 							tabBarIcon: () => (
 								<Icon name='briefcase' size={25} />
 							),
+							headerShown: false,
 						}}
 					/>
 				)}
@@ -73,7 +74,13 @@ const App = () => {
 	const JobTabs = () => {
 		return (
 			<Stack.Navigator initialRouteName='Jobs'>
-				<Stack.Screen name='Jobs' component={Jobs} />
+				<Stack.Screen
+					name='Jobs'
+					component={Jobs}
+					options={{
+						headerLeft: () => null,
+					}}
+				/>
 				<Stack.Screen
 					name='Job'
 					component={Job}
@@ -102,7 +109,13 @@ const App = () => {
 					<Stack.Navigator initialRouteName='SignUp'>
 						<Stack.Screen name='SignUp' component={SignUp} />
 						<Stack.Screen name='Login' component={Login} />
-						<Stack.Screen name='Dashboard' component={HomeTabs} />
+						<Stack.Screen
+							name='Dashboard'
+							component={HomeTabs}
+							options={{
+								headerLeft: () => <LogoutButton />,
+							}}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</PaperProvider>
