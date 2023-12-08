@@ -27,15 +27,6 @@ const App = () => {
 	const HomeTabs = () => {
 		return (
 			<Tab.Navigator>
-				<Tab.Screen
-					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
-					component={MyJobs}
-					options={{
-						tabBarIcon: () => (
-							<Icon name='clipboard-check-outline' size={25} />
-						),
-					}}
-				/>
 				{isRecruiter ? (
 					<Tab.Screen
 						name='CreateJob'
@@ -57,6 +48,15 @@ const App = () => {
 						}}
 					/>
 				)}
+				<Tab.Screen
+					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					component={MyJobs}
+					options={{
+						tabBarIcon: () => (
+							<Icon name='clipboard-check-outline' size={25} />
+						),
+					}}
+				/>
 				<Tab.Screen
 					name='Profile'
 					component={Profile}
