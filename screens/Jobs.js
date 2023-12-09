@@ -50,7 +50,7 @@ const JobsScreen = ({ navigation }) => {
         <Pressable
           style={styles.applyButton}
           onPress={() => handleApply(item._id)}>
-          <Text>Apply</Text>
+          <Text style={{color:"white"}}>Apply</Text>
         </Pressable>
       </View>
     </Pressable>
