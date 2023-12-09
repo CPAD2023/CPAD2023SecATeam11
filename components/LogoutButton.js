@@ -14,8 +14,7 @@ const LogoutButton = () => {
 
 	return (
 		<Pressable style={styles.logoutButton} onPress={handleLogout}>
-			<Icon source="logout">Logout</Icon>
-
+			<Icon source="logout"></Icon>
 		</Pressable>
 	);
 };

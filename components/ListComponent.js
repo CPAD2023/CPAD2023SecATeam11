@@ -1,4 +1,4 @@
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import React, { useState } from 'react';
 
@@ -32,16 +32,16 @@ export default function ListComponent({
 
 	return (
 		<View>
-			<Text style={{ color: 'black', fontSize:12 }}>{`Select any ${max}`}</Text>
+			<Text style={{ color: 'black', fontSize: 12 }}>{`Select any ${max}`}</Text>
 			<View style={styles.container}>
 				{chosenList?.map((value, index) => {
 					return (
 						<View style={{ padding: 4, }}>
 							<Button
 								key={index}
-								style={[styles.pill, styles.pillText]}
+								style={[styles.pillSelected, styles.pillText]}
 								onPress={() => handlePress({ value })}>
-								<Text style={{ fontWeight:600, color:"white"}}>{value}</Text>
+								<Text style={{ fontWeight: 600, color: "white" }}>{value}</Text>
 							</Button>
 						</View>
 					);
@@ -56,7 +56,7 @@ export default function ListComponent({
 									key={index}
 									style={[styles.pill, styles.pillText]}
 									onPress={() => handlePress({ value })}>
-									 <Text style={{ fontWeight:600, color:"white"}}>{value}</Text>
+									<Text style={{ fontWeight: 600, color: "white" }}>{value}</Text>
 								</Button>
 							</View>
 						);
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
 	pill: {
 		backgroundColor: '#3498db',
 		borderRadius: 5,
-		
 	},
+	pillSelected: { backgroundColor: "red", borderRadius: 5 },
 	pillText: {
 		color: '#fff',
 		fontSize: 16,

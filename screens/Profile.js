@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { Text, TextInput, Button, } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
@@ -119,78 +119,82 @@ const ProfilePage = () => {
 
 	return (
 		<View style={styles.container}>
-			<ScrollView>
-				<Text style={styles.header}>Recruiter's Profile</Text>
-				{/* {isError && <Text>{error}</Text>} */}
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>First Name</Text>
-					<TextInput textColor="black"
-						style={styles.input}
-						mode='outlined'
-						value={fname}
-						onChangeText={(text) => setFname(text)}
-						editable={editable}
-					/>
-				</View>
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Last Name</Text>
-					<TextInput textColor="black"
-						style={styles.input}
-						mode='outlined'
-						value={lname}
-						onChangeText={(text) => setLname(text)}
-						editable={editable}
-					/>
-				</View>
-
-				{isRecruiter && (
+			<ImageBackground blurRadius={1}
+				source={require(isRecruiter? "../assets/recruiter_profile.jpg":"../assets/background_login.jpg")}
+				style={{ height: "100%", width: "100%", flex: 1, padding:16 }}>
+				<ScrollView> 
+					<Text style={styles.header}>{isRecruiter ? 'Recruiter\'s Profile' : 'Candidate Profile'}</Text>
+					{/* {isError && <Text>{error}</Text>} */}
 					<View style={styles.fieldContainer}>
-						<Text style={{ color: 'black', fontWeight:700}} variant='titleMedium'>Company</Text>
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>First Name</Text>
 						<TextInput textColor="black"
-							mode='outlined'
 							style={styles.input}
-							value={company}
-							onChangeText={(text) => setCompany(text)}
+							mode='outlined'
+							value={fname}
+							onChangeText={(text) => setFname(text)}
 							editable={editable}
 						/>
 					</View>
-				)}
-
-				{!isRecruiter && (
 					<View style={styles.fieldContainer}>
-						<Text style={{ color: 'black', fontWeight:500 }}>Experience</Text>
-						<ListComponent
-							fullList={allExperience}
-							setFullList={setAllExperience}
-							chosenList={myExperience}
-							setChosenList={setMyExperience}
-							max={1}
-							showFull={showFull}
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Last Name</Text>
+						<TextInput textColor="black"
+							style={styles.input}
+							mode='outlined'
+							value={lname}
+							onChangeText={(text) => setLname(text)}
+							editable={editable}
 						/>
 					</View>
-				)}
 
-				{!isRecruiter && (
-					<View style={styles.fieldContainer}>
-						<Text style={{ color: 'black', fontWeight:700 }}>Skills</Text>
-						<ListComponent
-							fullList={allSkills}
-							setFullList={setAllSkills}
-							chosenList={mySkills}
-							setChosenList={setMySkills}
-							max={7}
-							showFull={showFull}
-						/>
-					</View>
-				)}
+					{isRecruiter && (
+						<View style={styles.fieldContainer}>
+							<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Company</Text>
+							<TextInput textColor="black"
+								mode='outlined'
+								style={styles.input}
+								value={company}
+								onChangeText={(text) => setCompany(text)}
+								editable={editable}
+							/>
+						</View>
+					)}
 
-				<Button style={styles.button}
-					onPress={editable ? handleSave : handleEdit}
-					mode='contained'
-				>
-					{editable ? <Text style={{ fontWeight:600, color:"black"}}>Save Profile</Text> : <Text style={{fontWeight:600, color:"black" }}>Edit Profile</Text>}
-				</Button>
-			</ScrollView>
+					{!isRecruiter && (
+						<View style={styles.fieldContainer}>
+							<Text style={{ color: 'black', fontWeight: 500 }}>Experience</Text>
+							<ListComponent
+								fullList={allExperience}
+								setFullList={setAllExperience}
+								chosenList={myExperience}
+								setChosenList={setMyExperience}
+								max={1}
+								showFull={showFull}
+							/>
+						</View>
+					)}
+
+					{!isRecruiter && (
+						<View style={styles.fieldContainer}>
+							<Text style={{ color: 'black', fontWeight: 700 }}>Skills</Text>
+							<ListComponent
+								fullList={allSkills}
+								setFullList={setAllSkills}
+								chosenList={mySkills}
+								setChosenList={setMySkills}
+								max={7}
+								showFull={showFull}
+							/>
+						</View>
+					)}
+
+					<Button style={styles.button}
+						onPress={editable ? handleSave : handleEdit}
+						mode='contained'
+					>
+						{editable ? <Text style={{ fontWeight: 600, color: "black" }}>Save Profile</Text> : <Text style={{ fontWeight: 600, color: "black" }}>Edit Profile</Text>}
+					</Button>
+				</ScrollView>
+			</ImageBackground>
 		</View>
 	);
 };
@@ -198,8 +202,6 @@ const ProfilePage = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 16,
-		marginBottom:8
 	},
 	header: {
 		fontSize: 24,
@@ -215,8 +217,8 @@ const styles = StyleSheet.create({
 		padding: 0,
 		marginTop: 8,
 	},
-	button:{
-		marginTop:8
+	button: {
+		marginTop: 8
 	}
 });
 

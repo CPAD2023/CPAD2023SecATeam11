@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { nonTechnicalSkills, technicalSkills } from '../resources/skills';
 import ListComponent from '../components/ListComponent';
@@ -52,64 +52,68 @@ const CreateJob = ({ navigation }) => {
 
 	return (
 		<ScrollView>
-			<View style={styles.container}>
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Role</Text>
-					<TextInput textColor="black" mode="outlined"
-						// label={'Role:'}
-						style={styles.input}
-						value={role}
-						onChangeText={setRole}
-					/>
-				</View>
+			<ImageBackground blurRadius={1}
+				source={require("../assets/create_job.jpg")}
+				style={{ height: "100%", width: "100%", flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
+				<View style={styles.container}>
+					<View style={styles.fieldContainer}>
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Role</Text>
+						<TextInput textColor="black" mode="outlined"
+							// label={'Role:'}
+							style={styles.input}
+							value={role}
+							onChangeText={setRole}
+						/>
+					</View>
 
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Job Description</Text>
-					<TextInput textColor="black" mode="outlined"
-						// label={'Description:'}
-						style={styles.input}
-						value={description}
-						onChangeText={setDescription}
-					/>
-				</View>
+					<View style={styles.fieldContainer}>
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Job Description</Text>
+						<TextInput textColor="black" mode="outlined"
+							// label={'Description:'}
+							style={styles.input}
+							value={description}
+							onChangeText={setDescription}
+						/>
+					</View>
 
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Company</Text>
-					<TextInput textColor="black" mode="outlined"
-						// label={'Company:'}
-						style={styles.input}
-						value={company}
-						onChangeText={setCompany}
-					/>
-				</View>
-				<View style={styles.fieldContainer}>
-					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Skills</Text>
+					<View style={styles.fieldContainer}>
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Company</Text>
+						<TextInput textColor="black" mode="outlined"
+							// label={'Company:'}
+							style={styles.input}
+							value={company}
+							onChangeText={setCompany}
+						/>
+					</View>
+					<View style={styles.fieldContainer}>
+						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Skills</Text>
+						<ListComponent
+							fullList={allSkills}
+							setFullList={setAllSkills}
+							chosenList={mySkills}
+							setChosenList={setMySkills}
+							max={7}
+							showFull={true}
+						/>
+					</View>
+
+					<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Experience</Text>
 					<ListComponent
-						fullList={allSkills}
-						setFullList={setAllSkills}
-						chosenList={mySkills}
-						setChosenList={setMySkills}
-						max={7}
+						fullList={allExperience}
+						setFullList={setAllExperience}
+						chosenList={myExperience}
+						setChosenList={setMyExperience}
+						max={1}
 						showFull={true}
 					/>
-				</View>
-				
-				<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Experience</Text>
-				<ListComponent
-					fullList={allExperience}
-					setFullList={setAllExperience}
-					chosenList={myExperience}
-					setChosenList={setMyExperience}
-					max={1}
-					showFull={true}
-				/>
 
-				<View style={styles.fieldContainer}>
-					<Button mode='contained' onPress={handleCreateJob} style={styles.button}>
-					<Text style={{ fontWeight:600, color:"black"}}>Create Job</Text>
-					</Button>
+					<View style={styles.fieldContainer}>
+						<Button mode='contained' onPress={handleCreateJob} style={styles.button}>
+							<Text style={{ fontWeight: 600, color: "black" }}>Create Job</Text>
+						</Button>
+					</View>
 				</View>
-			</View>
+			</ImageBackground>
 		</ScrollView>
 	);
 };
@@ -117,8 +121,8 @@ const CreateJob = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 16,
-		marginBottom: 8
+		backgroundColor: "rgba(0,0,0,0.2)",
+		padding: 16
 	},
 	fieldContainer: {
 		marginBottom: 16,
@@ -134,8 +138,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 		maxWidth: 'content',
 	},
-	button:{
-		marginTop:16
+	button: {
+		marginTop: 16
 	}
 });
 

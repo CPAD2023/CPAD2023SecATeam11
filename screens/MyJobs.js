@@ -56,7 +56,7 @@ const MyJobs = ({ navigation }) => {
               ? handleDelete(item._id)
               : handleInactive(item._id)
           }>
-          <Text>Set Inactive</Text>
+          <Text>{isRecruiter? 'Delete Job Posting':'Remove Application'}</Text>
         </Pressable>
       </View>
     </Pressable>
