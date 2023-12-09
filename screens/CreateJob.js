@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { nonTechnicalSkills, technicalSkills } from '../resources/skills';
+import ListComponent from '../components/ListComponent';
+import experienceArray from '../resources/experience';
+import { AppContext } from '../App';
 
 const CreateJob = ({ navigation }) => {
+	const { userId } = useContext(AppContext);
 	const [role, setRole] = useState('');
 	const [description, setDescription] = useState('');
 	const [company, setCompany] = useState('');
 	const [allSkills, setAllSkills] = useState(technicalSkills);
-	const [mySkills, setMySkills] = useState('');
-	const [experience, setExperience] = useState('0 - 2 years');
+	const [mySkills, setMySkills] = useState([]);
+	const [allExperience, setAllExperience] = useState(experienceArray);
+	const [myExperience, setMyExperience] = useState([]);
 
 	const handleCreateJob = async () => {
 		try {
@@ -19,8 +24,11 @@ const CreateJob = ({ navigation }) => {
 			formData.append('role', role);
 			formData.append('description', description);
 			formData.append('company', company);
-			formData.append('skills', skills);
-			formData.append('experience', experience);
+			formData.append('skills', mySkills);
+			formData.append(
+				'experience',
+				myExperience.length > 0 ? myExperience[0] : ''
+			);
 			formData.append('postedBy', userId);
 
 			const response = await fetch(apiUrl, {
@@ -30,71 +38,75 @@ const CreateJob = ({ navigation }) => {
 				},
 				body: formData.toString(),
 			});
+			setRole('');
+			setDescription('');
+			setCompany('');
+			setAllSkills(technicalSkills);
+			setMySkills([]);
+			setMyExperience([]);
+			setAllExperience(experienceArray);
 		} catch (error) {
 			console.error('Error creating job:', error);
 		}
 	};
 
 	return (
-		<View>
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Role:'}
-					style={styles.input}
-					value={role}
-					onChangeText={setRole}
+		<ScrollView>
+			<View>
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Role:'}
+						style={styles.input}
+						value={role}
+						onChangeText={setRole}
+					/>
+				</View>
+
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Description:'}
+						style={styles.input}
+						value={description}
+						onChangeText={setDescription}
+					/>
+				</View>
+
+				<View style={styles.fieldContainer}>
+					<TextInput
+						label={'Company:'}
+						style={styles.input}
+						value={company}
+						onChangeText={setCompany}
+					/>
+				</View>
+
+				<Text style={{ color: 'black' }}>Skills:</Text>
+				<ListComponent
+					fullList={allSkills}
+					setFullList={setAllSkills}
+					chosenList={mySkills}
+					setChosenList={setMySkills}
+					max={7}
+					showFull={true}
 				/>
-			</View>
 
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Description:'}
-					style={styles.input}
-					value={description}
-					onChangeText={setDescription}
+				<Text style={{ color: 'black' }}>Experience:</Text>
+				<ListComponent
+					fullList={allExperience}
+					setFullList={setAllExperience}
+					chosenList={myExperience}
+					setChosenList={setMyExperience}
+					max={1}
+					showFull={true}
 				/>
-			</View>
 
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Company:'}
-					style={styles.input}
-					value={company}
-					onChangeText={setCompany}
-				/>
+				<View style={styles.fieldContainer}>
+					<Button mode='contained' onPress={handleCreateJob}>
+						Create Job
+					</Button>
+				</View>
 			</View>
-
-			<View style={styles.pillButtonContainer}>
-				<Text>Skills:</Text>
-				{mySkills &&
-					mySkills.map((skill) => (
-						<Button key={skill} mode='contained'>
-							{skill}
-						</Button>
-					))}
-				{allSkills &&
-					allSkills.map((skill) => (
-						<Button key={skill} mode='contained'>
-							{skill}
-						</Button>
-					))}
-			</View>
-
-			<View style={styles.fieldContainer}>
-				<TextInput
-					label={'Experience:'}
-					style={styles.input}
-					value={experience}
-					onChangeText={setExperience}
-				/>
-			</View>
-
-			<View style={styles.fieldContainer}>
-				<Button mode='contained' onPress={handleCreateJob}>
-					Create Job
-				</Button>
-			</View>
-		</View>
+		</ScrollView>
 	);
 };
 

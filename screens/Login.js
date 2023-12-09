@@ -60,6 +60,8 @@ const Login = ({ navigation }) => {
 				setToken(responseData.token);
 				navigation.navigate('Dashboard');
 			}
+			setUsername('');
+			setPassword('');
 		} catch (error) {
 			console.error('Error signing up:', error.message);
 		}

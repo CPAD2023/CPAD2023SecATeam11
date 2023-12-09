@@ -5,12 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PaperProvider } from 'react-native-paper';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
-import Dashboard from './screens/Dashboard';
 import Jobs from './screens/Jobs';
 import MyJobs from './screens/MyJobs';
 import Profile from './screens/Profile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CreateJob from './screens/CreateJob';
+import Job from './screens/Job';
+import LogoutButton from './components/LogoutButton';
 
 export const AppContext = createContext();
 
@@ -20,21 +21,12 @@ const Tab = createBottomTabNavigator();
 const App = () => {
 	const [userId, setUserId] = useState(null);
 	const [userData, setUserData] = useState(null);
-	const [isRecruiter, setIsRecruiter] = useState(false);
+	const [isRecruiter, setIsRecruiter] = useState(true);
 	const [token, setToken] = useState(null);
 
 	const HomeTabs = () => {
 		return (
 			<Tab.Navigator>
-				<Tab.Screen
-					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
-					component={MyJobs}
-					options={{
-						tabBarIcon: () => (
-							<Icon name='clipboard-check-outline' size={25} />
-						),
-					}}
-				/>
 				{isRecruiter ? (
 					<Tab.Screen
 						name='CreateJob'
@@ -48,14 +40,25 @@ const App = () => {
 				) : (
 					<Tab.Screen
 						name='Jobs'
-						component={Jobs}
+						component={JobTabs}
 						options={{
 							tabBarIcon: () => (
 								<Icon name='briefcase' size={25} />
 							),
+							headerShown: false,
 						}}
 					/>
 				)}
+				<Tab.Screen
+					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					component={MyJobTabs}
+					options={{
+						tabBarIcon: () => (
+							<Icon name='clipboard-check-outline' size={25} />
+						),
+						headerShown: false,
+					}}
+				/>
 				<Tab.Screen
 					name='Profile'
 					component={Profile}
@@ -66,6 +69,48 @@ const App = () => {
 					}}
 				/>
 			</Tab.Navigator>
+		);
+	};
+
+	const MyJobTabs = () => {
+		return (
+			<Stack.Navigator>
+				<Stack.Screen
+					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					component={MyJobs}
+					options={{
+						headerLeft: () => null,
+					}}
+				/>
+				<Stack.Screen
+					name='Job'
+					component={Job}
+					options={({ route }) => ({
+						title: route.params.jobName || 'Job',
+					})}
+				/>
+			</Stack.Navigator>
+		);
+	};
+
+	const JobTabs = () => {
+		return (
+			<Stack.Navigator initialRouteName='Jobs'>
+				<Stack.Screen
+					name='Jobs'
+					component={Jobs}
+					options={{
+						headerLeft: () => null,
+					}}
+				/>
+				<Stack.Screen
+					name='Job'
+					component={Job}
+					options={({ route }) => ({
+						title: route.params.jobName || 'Job',
+					})}
+				/>
+			</Stack.Navigator>
 		);
 	};
 
@@ -86,7 +131,13 @@ const App = () => {
 					<Stack.Navigator initialRouteName='SignUp'>
 						<Stack.Screen name='SignUp' component={HomeTabs} />
 						<Stack.Screen name='Login' component={Login} />
-						<Stack.Screen name='Dashboard' component={HomeTabs} />
+						<Stack.Screen
+							name='Dashboard'
+							component={HomeTabs}
+							options={{
+								headerLeft: () => <LogoutButton />,
+							}}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</PaperProvider>
