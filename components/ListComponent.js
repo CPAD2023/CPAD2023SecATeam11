@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet} from 'react-native';
+import { Text, Button } from 'react-native-paper';
 import React, { useState } from 'react';
 
 export default function ListComponent({
@@ -31,17 +32,18 @@ export default function ListComponent({
 
 	return (
 		<View>
-			<Text style={{ color: 'black' }}>{`Max- ${max}`}</Text>
+			<Text style={{ color: 'black', fontSize:12 }}>{`Select any ${max}`}</Text>
 			<View style={styles.container}>
 				{chosenList?.map((value, index) => {
 					return (
-						<Button
-							key={index}
-							title={value}
-							style={[styles.pill, styles.pillText]}
-							onPress={() => handlePress({ value })}>
-							{value}
-						</Button>
+						<View style={{ padding: 4, }}>
+							<Button
+								key={index}
+								style={[styles.pill, styles.pillText]}
+								onPress={() => handlePress({ value })}>
+								<Text style={{ fontWeight:600, color:"white"}}>{value}</Text>
+							</Button>
+						</View>
 					);
 				})}
 			</View>
@@ -49,13 +51,14 @@ export default function ListComponent({
 				<View style={styles.container}>
 					{fullList?.map((value, index) => {
 						return (
-							<Button
-								key={index}
-								title={value}
-								style={[styles.pill, styles.pillText]}
-								onPress={() => handlePress({ value })}>
-								{value}
-							</Button>
+							<View style={{ padding: 4, }}>
+								<Button
+									key={index}
+									style={[styles.pill, styles.pillText]}
+									onPress={() => handlePress({ value })}>
+									 <Text style={{ fontWeight:600, color:"white"}}>{value}</Text>
+								</Button>
+							</View>
 						);
 					})}
 				</View>
@@ -68,15 +71,12 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 10,
+		padding: 5,
 	},
 	pill: {
 		backgroundColor: '#3498db',
-		borderRadius: 20,
-		paddingHorizontal: 15,
-		paddingVertical: 8,
-		marginHorizontal: 5,
-		marginVertical: 5,
+		borderRadius: 5,
+		
 	},
 	pillText: {
 		color: '#fff',

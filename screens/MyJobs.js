@@ -4,9 +4,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { AppContext } from "../App";
 
 const MyJobs = ({ navigation }) => {
-	const { userId, isRecruiter } = useContext(AppContext);
-	const [jobs, setJobs] = useState([]);
-	console.log(userId);
+  const { userId, isRecruiter } = useContext(AppContext);
+  const [jobs, setJobs] = useState([]);
+  console.log(userId);
 
   useFocusEffect(
     useCallback(() => {
@@ -32,35 +32,35 @@ const MyJobs = ({ navigation }) => {
     }, [])
   );
 
-	const renderItem = ({ item }) => (
-		<Pressable
-			onPress={() =>
-				navigation.navigate('Job', {
-					jobDetails: item,
-					jobName: item.role,
-				})
-			}>
-			<View style={styles.jobCard}>
-				<Text style={styles.jobTitle}>{item.role}</Text>
-				<Text style={styles.company}>{item.company}</Text>
-				<Text style={styles.experience}>
-					Experience: {item.experience}
-				</Text>
-				<Text style={styles.skills}>
-					Skills: {item.skills.join(', ')}
-				</Text>
-				<Pressable
-					style={styles.applyButton}
-					onPress={() =>
-						isRecruiter
-							? handleDelete(item._id)
-							: handleInactive(item._id)
-					}>
-					<Text>Set Inactive</Text>
-				</Pressable>
-			</View>
-		</Pressable>
-	);
+  const renderItem = ({ item }) => (
+    <Pressable
+      onPress={() =>
+        navigation.navigate('Job', {
+          jobDetails: item,
+          jobName: item.role,
+        })
+      }>
+      <View style={styles.jobCard}>
+        <Text style={styles.jobTitle}>{item.role}</Text>
+        <Text style={styles.company}>{item.company}</Text>
+        <Text style={styles.experience}>
+          Experience: {item.experience}
+        </Text>
+        <Text style={styles.skills}>
+          Skills: {item.skills.join(', ')}
+        </Text>
+        <Pressable
+          style={styles.applyButton}
+          onPress={() =>
+            isRecruiter
+              ? handleDelete(item._id)
+              : handleInactive(item._id)
+          }>
+          <Text>Set Inactive</Text>
+        </Pressable>
+      </View>
+    </Pressable>
+  );
 
   const handleInactive = (jobId) => {
     const formData = new URLSearchParams();

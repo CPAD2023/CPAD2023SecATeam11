@@ -52,10 +52,11 @@ const CreateJob = ({ navigation }) => {
 
 	return (
 		<ScrollView>
-			<View>
+			<View style={styles.container}>
 				<View style={styles.fieldContainer}>
-					<TextInput
-						label={'Role:'}
+					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Role</Text>
+					<TextInput textColor="black" mode="outlined"
+						// label={'Role:'}
 						style={styles.input}
 						value={role}
 						onChangeText={setRole}
@@ -63,8 +64,9 @@ const CreateJob = ({ navigation }) => {
 				</View>
 
 				<View style={styles.fieldContainer}>
-					<TextInput
-						label={'Description:'}
+					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Job Description</Text>
+					<TextInput textColor="black" mode="outlined"
+						// label={'Description:'}
 						style={styles.input}
 						value={description}
 						onChangeText={setDescription}
@@ -72,25 +74,27 @@ const CreateJob = ({ navigation }) => {
 				</View>
 
 				<View style={styles.fieldContainer}>
-					<TextInput
-						label={'Company:'}
+					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Company</Text>
+					<TextInput textColor="black" mode="outlined"
+						// label={'Company:'}
 						style={styles.input}
 						value={company}
 						onChangeText={setCompany}
 					/>
 				</View>
-
-				<Text style={{ color: 'black' }}>Skills:</Text>
-				<ListComponent
-					fullList={allSkills}
-					setFullList={setAllSkills}
-					chosenList={mySkills}
-					setChosenList={setMySkills}
-					max={7}
-					showFull={true}
-				/>
-
-				<Text style={{ color: 'black' }}>Experience:</Text>
+				<View style={styles.fieldContainer}>
+					<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Skills</Text>
+					<ListComponent
+						fullList={allSkills}
+						setFullList={setAllSkills}
+						chosenList={mySkills}
+						setChosenList={setMySkills}
+						max={7}
+						showFull={true}
+					/>
+				</View>
+				
+				<Text style={{ color: 'black', fontWeight:700 }} variant='titleMedium'>Experience</Text>
 				<ListComponent
 					fullList={allExperience}
 					setFullList={setAllExperience}
@@ -101,8 +105,8 @@ const CreateJob = ({ navigation }) => {
 				/>
 
 				<View style={styles.fieldContainer}>
-					<Button mode='contained' onPress={handleCreateJob}>
-						Create Job
+					<Button mode='contained' onPress={handleCreateJob} style={styles.button}>
+					<Text style={{ fontWeight:600, color:"black"}}>Create Job</Text>
 					</Button>
 				</View>
 			</View>
@@ -111,14 +115,18 @@ const CreateJob = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		padding: 16,
+		marginBottom: 8
+	},
 	fieldContainer: {
-		margin: 16,
+		marginBottom: 16,
 	},
 	input: {
-		borderWidth: 1,
-		borderColor: '#ccc',
-		padding: 8,
 		marginTop: 8,
+		color: "black",
+		backgroundColor: "#fff"
 	},
 	pillButtonContainer: {
 		flexDirection: 'row',
@@ -126,6 +134,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 		maxWidth: 'content',
 	},
+	button:{
+		marginTop:16
+	}
 });
 
 export default CreateJob;

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AppContext } from '../App';
-
+import { Icon } from 'react-native-paper';
 const LogoutButton = () => {
 	const { setToken } = useContext(AppContext);
 	const navigation = useNavigation();
@@ -14,7 +14,8 @@ const LogoutButton = () => {
 
 	return (
 		<Pressable style={styles.logoutButton} onPress={handleLogout}>
-			<Text style={styles.logoutText}>Logout</Text>
+			<Icon source="logout">Logout</Icon>
+
 		</Pressable>
 	);
 };

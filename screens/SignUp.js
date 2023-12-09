@@ -5,43 +5,51 @@ import Checkbox from 'expo-checkbox';
 import { AppContext } from '../App';
 
 const SignUp = ({ navigation }) => {
-	const { token } = useContext(AppContext);
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [isRecruiter, setIsRecruiter] = useState(false);
+  const { token } = useContext(AppContext);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRecruiter, setIsRecruiter] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-	const handleSignUp = async () => {
-		try {
-			const apiUrl = 'http://localhost:3000/signup';
+  const handleSignUp = async () => {
+    if (username.length == 0 || password.length == 0) {
+      setError(true);
+      setErrorMsg('Empty fields!');
+    } else {
+      setError(false);
+      setErrorMsg('');
+      try {
+        const apiUrl = 'http://localhost:3000/signup';
 
-			const formData = new URLSearchParams();
-			formData.append('username', username);
-			formData.append('password', password);
-			formData.append('isRecruiter', isRecruiter);
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
+        formData.append('isRecruiter', isRecruiter);
 
-			const response = await fetch(apiUrl, {
-				method: 'POST',
-				mode: 'no-cors',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				body: formData.toString(),
-			});
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData.toString(),
+        });
 
-			if (!response.ok) {
-				console.error('Error signing up:', response.statusText);
-				return;
-			} else {
-				await navigation.navigate('Log In');
-			}
-		} catch (error) {
-			console.error('Error signing up:', error.message);
-		}
-	};
+        if (!response.ok) {
+          console.error('Error signing up:', response.statusText);
+          return;
+        } else {
+          navigation.navigate('Login');
+        }
+      } catch (error) {
+        console.error('Error signing up:', error.message);
+      }
+    }
+  };
 
   useEffect(() => {
     if (token) {
-      navigation.navigate("Dashboard");
+      navigation.navigate('Dashboard');
     }
   }, [token, navigation]);
 
@@ -157,6 +165,8 @@ const styles = StyleSheet.create({
   button: {
     padding: 5,
     margin: 10,
+    fontWeight:600,
+    fontColor:"white"
   },
 });
 

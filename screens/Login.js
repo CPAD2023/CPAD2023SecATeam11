@@ -8,68 +8,49 @@ import { AppContext } from "../App";
 const Login = ({ navigation }) => {
   const { setUserData, token, setToken, setUserId, setIsRecruiter } =
     useContext(AppContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      const apiUrl = "http://localhost:3000/login";
+      const apiUrl = 'http://localhost:3000/login';
 
       const formData = new URLSearchParams();
-      formData.append("username", username);
-      formData.append("password", password);
+      formData.append('username', username);
+      formData.append('password', password);
 
       const response = await fetch(apiUrl, {
-        method: "POST",
-        mode: "no-cors",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: formData.toString(),
       });
 
       if (!response.ok) {
-        console.error("Error signing up:", response.statusText);
+        console.error('Error signing up:', response.statusText);
         return;
       } else {
         const responseData = await response.json();
-        console.log(responseData);
-        if (responseData.user != null) {
+        console.log('hello world', responseData);
+        if (responseData.userData != null) {
           setUserData(responseData.userData);
         }
         setUserId(responseData.userId);
         setIsRecruiter(responseData.isRecruiter);
         setToken(responseData.token);
-        navigation.navigate("Dashboard");
+        navigation.navigate('Dashboard');
       }
+      setUsername('');
+      setPassword('');
     } catch (error) {
-      console.error("Error signing up:", error.message);
+      console.error('Error signing up:', error.message);
     }
   };
-			if (!response.ok) {
-				console.error('Error signing up:', response.statusText);
-				return;
-			} else {
-				const responseData = await response.json();
-				console.log(responseData);
-				if (responseData.user != null) {
-					setUserData(responseData.userData);
-				}
-				setUserId(responseData.userId);
-				setIsRecruiter(responseData.isRecruiter);
-				setToken(responseData.token);
-				navigation.navigate('Dashboard');
-			}
-			setUsername('');
-			setPassword('');
-		} catch (error) {
-			console.error('Error signing up:', error.message);
-		}
-	};
 
   useEffect(() => {
     if (token) {
-      navigation.navigate("Dashboard");
+      navigation.navigate('Dashboard');
     }
   }, [token, navigation]);
 
@@ -122,54 +103,8 @@ const Login = ({ navigation }) => {
       </ImageBackground>
     </View>
   );
-	return (
-		<View style={styles.container}>
-			<ImageBackground
-				blurRadius={2}
-				source={require('../assets/background_login.jpg')}
-				style={{ height: '100%', width: '100%', flex: 1 }}>
-				<View style={styles.innerContainer}>
-					<Text variant='displayMedium' style={styles.pageHeading}>
-						Talentista
-					</Text>
-					<Text style={styles.pageHeading} variant='headlineSmall'>
-						Welcome Back!
-					</Text>
-					<View style={styles.formContainer}>
-						<Text style={styles.label} variant='titleLarge'>
-							Username
-						</Text>
-						<TextInput
-							style={styles.input}
-							value={username}
-							onChangeText={setUsername}
-							mode='outlined'
-							placeholder='Username'
-						/>
-						<Text style={styles.label} variant='titleLarge'>
-							Password
-						</Text>
-						<TextInput
-							style={styles.input}
-							value={password}
-							onChangeText={setPassword}
-							secureTextEntry
-							mode='outlined'
-							placeholder='Password'
-						/>
-						<Button
-							onPress={handleLogin}
-							mode='contained'
-							style={styles.button}>
-							{' '}
-							Login{' '}
-						</Button>
-					</View>
-				</View>
-			</ImageBackground>
-		</View>
-	);
-};
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

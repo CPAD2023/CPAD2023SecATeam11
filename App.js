@@ -29,7 +29,7 @@ const App = () => {
 			<Tab.Navigator>
 				{isRecruiter ? (
 					<Tab.Screen
-						name='CreateJob'
+						name='Create Job'
 						component={CreateJob}
 						options={{
 							tabBarIcon: () => (
@@ -50,7 +50,7 @@ const App = () => {
 					/>
 				)}
 				<Tab.Screen
-					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					name={isRecruiter ? 'My Postings' : 'My Jobs'}
 					component={MyJobTabs}
 					options={{
 						tabBarIcon: () => (
@@ -76,7 +76,7 @@ const App = () => {
 		return (
 			<Stack.Navigator>
 				<Stack.Screen
-					name={isRecruiter ? 'MyPostings' : 'MyJobs'}
+					name={isRecruiter ? 'My Postings' : 'My Jobs'}
 					component={MyJobs}
 					options={{
 						headerLeft: () => null,
@@ -129,13 +129,14 @@ const App = () => {
 			<PaperProvider>
 				<NavigationContainer>
 					<Stack.Navigator initialRouteName='SignUp'>
-						<Stack.Screen name='SignUp' component={HomeTabs} />
+						<Stack.Screen name='SignUp' component={SignUp} />
 						<Stack.Screen name='Login' component={Login} />
 						<Stack.Screen
 							name='Dashboard'
 							component={HomeTabs}
 							options={{
-								headerLeft: () => <LogoutButton />,
+								headerRight: () => <LogoutButton />,
+								headerLeft:()=>{}
 							}}
 						/>
 					</Stack.Navigator>
