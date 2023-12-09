@@ -1,13 +1,15 @@
 import React, { useContext, useState, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, ImageBackground } from 'react-native';
-import { Text, TextInput, Button, } from 'react-native-paper';
+import { Text, TextInput, Button } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { AppContext } from '../App';
 import { nonTechnicalSkills, technicalSkills } from '../resources/skills';
 import ListComponent from '../components/ListComponent';
 import experienceArray from '../resources/experience';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 const ProfilePage = () => {
+	const cld = new Cloudinary({ cloud: { cloudName: 'doch5l9wx' } });
 	const { userData, setUserData, isRecruiter, userId } =
 		useContext(AppContext);
 	const [editable, setEditable] = useState(false);
@@ -119,15 +121,27 @@ const ProfilePage = () => {
 
 	return (
 		<View style={styles.container}>
-			<ImageBackground blurRadius={1}
-				source={require(isRecruiter? "../assets/recruiter_profile.jpg":"../assets/background_login.jpg")}
-				style={{ height: "100%", width: "100%", flex: 1, padding:16 }}>
-				<ScrollView> 
-					<Text style={styles.header}>{isRecruiter ? 'Recruiter\'s Profile' : 'Candidate Profile'}</Text>
+			<ImageBackground
+				blurRadius={1}
+				source={require(isRecruiter
+					? '../assets/recruiter_profile.jpg'
+					: '../assets/background_login.jpg')}
+				style={{ height: '100%', width: '100%', flex: 1, padding: 16 }}>
+				<ScrollView>
+					<Text style={styles.header}>
+						{isRecruiter
+							? "Recruiter's Profile"
+							: 'Candidate Profile'}
+					</Text>
 					{/* {isError && <Text>{error}</Text>} */}
 					<View style={styles.fieldContainer}>
-						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>First Name</Text>
-						<TextInput textColor="black"
+						<Text
+							style={{ color: 'black', fontWeight: 700 }}
+							variant='titleMedium'>
+							First Name
+						</Text>
+						<TextInput
+							textColor='black'
 							style={styles.input}
 							mode='outlined'
 							value={fname}
@@ -136,8 +150,13 @@ const ProfilePage = () => {
 						/>
 					</View>
 					<View style={styles.fieldContainer}>
-						<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Last Name</Text>
-						<TextInput textColor="black"
+						<Text
+							style={{ color: 'black', fontWeight: 700 }}
+							variant='titleMedium'>
+							Last Name
+						</Text>
+						<TextInput
+							textColor='black'
 							style={styles.input}
 							mode='outlined'
 							value={lname}
@@ -148,8 +167,13 @@ const ProfilePage = () => {
 
 					{isRecruiter && (
 						<View style={styles.fieldContainer}>
-							<Text style={{ color: 'black', fontWeight: 700 }} variant='titleMedium'>Company</Text>
-							<TextInput textColor="black"
+							<Text
+								style={{ color: 'black', fontWeight: 700 }}
+								variant='titleMedium'>
+								Company
+							</Text>
+							<TextInput
+								textColor='black'
 								mode='outlined'
 								style={styles.input}
 								value={company}
@@ -161,7 +185,9 @@ const ProfilePage = () => {
 
 					{!isRecruiter && (
 						<View style={styles.fieldContainer}>
-							<Text style={{ color: 'black', fontWeight: 500 }}>Experience</Text>
+							<Text style={{ color: 'black', fontWeight: 500 }}>
+								Experience
+							</Text>
 							<ListComponent
 								fullList={allExperience}
 								setFullList={setAllExperience}
@@ -175,7 +201,9 @@ const ProfilePage = () => {
 
 					{!isRecruiter && (
 						<View style={styles.fieldContainer}>
-							<Text style={{ color: 'black', fontWeight: 700 }}>Skills</Text>
+							<Text style={{ color: 'black', fontWeight: 700 }}>
+								Skills
+							</Text>
 							<ListComponent
 								fullList={allSkills}
 								setFullList={setAllSkills}
@@ -187,11 +215,19 @@ const ProfilePage = () => {
 						</View>
 					)}
 
-					<Button style={styles.button}
+					<Button
+						style={styles.button}
 						onPress={editable ? handleSave : handleEdit}
-						mode='contained'
-					>
-						{editable ? <Text style={{ fontWeight: 600, color: "black" }}>Save Profile</Text> : <Text style={{ fontWeight: 600, color: "black" }}>Edit Profile</Text>}
+						mode='contained'>
+						{editable ? (
+							<Text style={{ fontWeight: 600, color: 'black' }}>
+								Save Profile
+							</Text>
+						) : (
+							<Text style={{ fontWeight: 600, color: 'black' }}>
+								Edit Profile
+							</Text>
+						)}
 					</Button>
 				</ScrollView>
 			</ImageBackground>
@@ -205,21 +241,21 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		fontSize: 24,
-		fontWeight: "bolder",
+		fontWeight: 'bolder',
 		marginBottom: 16,
-		color: "black"
+		color: 'black',
 	},
 	fieldContainer: {
 		marginBottom: 16,
 	},
 	input: {
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		padding: 0,
 		marginTop: 8,
 	},
 	button: {
-		marginTop: 8
-	}
+		marginTop: 8,
+	},
 });
 
 export default ProfilePage;
