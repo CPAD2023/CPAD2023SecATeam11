@@ -32,10 +32,12 @@ const Job = ({ route }) => {
 
 	return (
 		<ScrollView style={styles.container}>
-			<Card style={[styles.card, { width: screenWidth - 30 }]}>
+			<Card style={[styles.card, { width: screenWidth - 30 }]} mode='elevated'>
 				<Card.Title
 					title={jobDetails.role}
 					subtitle={jobDetails.company}
+					titleStyle={{ color: "black", fontWeight: "800" }}
+					subtitleStyle={{ color: "black" }}
 				/>
 				<Card.Content>
 					<Text>Experience Required: {jobDetails.experience}</Text>
@@ -67,11 +69,13 @@ const ApplicantCard = ({ applicant }) => {
 		<Card style={[styles.card, { width: screenWidth - 30 }]}>
 			<Card.Title
 				title={applicant.fname + ' ' + applicant.lname}
-				subtitle={`Experience: ${applicant.experience}`}
+				titleStyle={{ color: "black", fontWeight: "800" }}
+				subtitleStyle={{ color: "black" }}
 			/>
 			<Card.Content>
-				<View style={styles.container}>
-					Skills:{' '}
+			<Text>Experience: {applicant.experience}</Text>
+				<View style={styles.skills}>
+					<Text style={{paddingTop:12, fontWeight:400, fontSize:14}}>Skills:{" "}</Text>
 					{applicant.skills.map((skill, index) => (
 						<Text
 							style={[styles.pill, styles.pillText]}
@@ -102,13 +106,14 @@ const styles = StyleSheet.create({
 		padding: 16,
 	},
 	card: {
-		color: 'white',
+		color: "black",
 		marginBottom: 16,
+		backgroundColor: "#ddd"
 	},
 	container: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 10,
+		padding:16
 	},
 	applicantsHeading: {
 		fontSize: 18,
@@ -119,19 +124,26 @@ const styles = StyleSheet.create({
 	scheduleButton: {
 		marginTop: 8,
 	},
+
 	pill: {
 		backgroundColor: '#3498db',
-		borderRadius: 20,
 		paddingHorizontal: 15,
 		paddingVertical: 8,
 		marginHorizontal: 5,
-		marginVertical: 5,
+		marginVertical: 5, 
+		borderRadius: 5
 	},
 	pillText: {
 		color: '#fff',
 		fontSize: 16,
 		padding: 4,
 	},
+	skills:{
+		flex:1,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		verticalAlign:"center"
+	}
 });
 
 export default Job;
